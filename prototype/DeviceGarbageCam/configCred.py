@@ -1,0 +1,6 @@
+user="rasp1"
+password="qcy2rbd7jR9sQuag"
+cords="34.7095759511003, -40.677134487398405"
+cl="DevicesData"
+db="Devices"
+coll="data"
