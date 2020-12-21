@@ -1,0 +1,6 @@
+user=""
+password=""
+cords=""
+cl=""
+db=""
+coll=""
