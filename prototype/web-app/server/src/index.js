@@ -5,7 +5,7 @@ const cors = require('cors');
 
 // Moving middleware functions into their own file
 const middelwares = require('./middlewares');
-// Define app as express and we will use
+// Define app as express use
 // Morgan, Helmet and Cors with this.
 const app = express();
 app.use(morgan('common'));
