@@ -44,6 +44,11 @@ build/Release
 node_modules/
 jspm_packages/
 
+node_modules/dotenv/
+node_modules/dotenv
+node_modules/*
+/node_modules
+
 # TypeScript v1 declaration files
 typings/
 
