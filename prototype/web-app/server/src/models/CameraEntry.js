@@ -10,6 +10,7 @@ const { Schema } = mongoose;
 // * Image(convert from base64 to image here or server side ?) - Text => URL
 // * Data(raw data for debugging)
 
+/* eslint-disable no-unused-vars */
 const cameraSchema = new Schema({
   title: {
     type: String,
@@ -46,3 +47,7 @@ const cameraSchema = new Schema({
 }, {
   timestamps: true,
 });
+
+const CameraSchema = mongoose.model('CameraSchema', cameraSchema);
+
+module.exports = CameraSchema;

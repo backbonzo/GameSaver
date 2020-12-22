@@ -6,6 +6,9 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+# User defined
+notes.txt
+
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
@@ -40,6 +43,11 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+
+node_modules/dotenv/
+node_modules/dotenv
+node_modules/*
+/node_modules
 
 # TypeScript v1 declaration files
 typings/
