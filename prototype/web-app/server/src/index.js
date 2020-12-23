@@ -8,12 +8,14 @@ require('dotenv').config(); // Automatically read .env if exist
 
 // Moving middleware functions into their own file
 const middelwares = require('./middlewares');
+const devices = require('./api/devices');
 
 const app = express();
-
+/*
 mongoose.connect('process.env.DATABASE_URL', {
   useNewUrlParser: true,
 });
+*/
 
 // Define app as express use
 // Morgan, Helmet and Cors with this.
@@ -30,6 +32,10 @@ app.get('/', (req, res) => {
     message: 'Hello World',
   });
 });
+
+// We use the router before the notFound since we want it to register
+// and because we want to use it AFTER our middlewares above
+app.use('/api/devices', devices);
 
 app.use(middelwares.notFound);
 app.use(middelwares.errorHandler);
