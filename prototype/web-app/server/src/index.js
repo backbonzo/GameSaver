@@ -11,11 +11,17 @@ const middelwares = require('./middlewares');
 const devices = require('./api/devices');
 
 const app = express();
-/*
-mongoose.connect('process.env.DATABASE_URL', {
+
+// Connecting to mongoDB using mongoose ORM.
+mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
-});
-*/
+  useUnifiedTopology: true,
+}).then(() => {
+  console.log('Connected to database ');
+})
+  .catch((err) => {
+    console.error(`Error connecting to the database. \n${err}`);
+  });
 
 // Define app as express use
 // Morgan, Helmet and Cors with this.
@@ -25,6 +31,8 @@ app.use(cors({
   // We let our app know that we will ONLY accept req from this url
   origin: process.env.CORS_ORIGIN,
 }));
+// Adding json body parsing middleware from express
+app.use(express.json());
 
 // Simple get for the / url
 app.get('/', (req, res) => {
