@@ -19,6 +19,42 @@ const cameraSchema = new Schema({
     trim: true,
     maxlength: [10, 'Title must be less than 10 characters'],
   },
+  description: String,
+  image: String,
+  latitude: {
+    type: Number,
+    required: true,
+    min: -90,
+    max: 90,
+  },
+  longitude: {
+    type: Number,
+    required: true,
+    min: -180,
+    max: 180,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+}, {
+  timestamps: true,
+});
+
+const CameraSchema = mongoose.model('CameraSchema', cameraSchema);
+
+module.exports = CameraSchema;
+
+// Saving old schema, testing with test schema
+/*
+const cameraSchema = new Schema({
+  title: {
+    type: String,
+    required: [true, 'Please enter a title'],
+    unique: true,
+    trim: true,
+    maxlength: [10, 'Title must be less than 10 characters'],
+  },
   description: {
     type: String,
   },
@@ -40,14 +76,11 @@ const cameraSchema = new Schema({
     default: Date.now,
   },
   image: String,
-  /* img: {
+  img: {
     data: Buffer,
     contentType: String,
-  }, */
+  },
 }, {
   timestamps: true,
 });
-
-const CameraSchema = mongoose.model('CameraSchema', cameraSchema);
-
-module.exports = CameraSchema;
+*/
