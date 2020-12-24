@@ -4,11 +4,14 @@ const CameraEntry = require('../models/CameraEntry');
 // creating the router
 const router = Router();
 
-// simple get to test
-router.get('/', (req, res) => {
-  res.json({
-    message: '🌍',
-  });
+// simple get to see all queries in db
+router.get('/', async (req, res, next) => {
+  try {
+    const entries = await CameraEntry.find();
+    res.json(entries);
+  } catch (error) {
+    next(error);
+  }
 });
 
 // simple post config
