@@ -1,6 +1,4 @@
 const { Router } = require('express');
-
-const fs = require('fs');
 // importing our schema
 const CameraEntry = require('../models/CameraEntry');
 // creating the router
@@ -9,11 +7,8 @@ const router = Router();
 // simple get to see all queries in db
 router.get('/', async (req, res, next) => {
   try {
-    const entries = await CameraEntry.findById('5fe9bdc3d97199829505331b');
+    const entries = await CameraEntry.find();
     res.json(entries);
-    const buffer = entries.image;
-    // Below we are writing the file and use the base64 data from buffer variable
-    fs.writeFileSync('image.png', buffer);
   } catch (error) {
     next(error);
   }
