@@ -7,7 +7,7 @@ import os
 from bson.binary import Binary
 
 # var that acts as hours which will be multiplied by 3600 sec 
-sendEveryH = 1
+sendEveryH = 0.00277
 
 # set starting point time
 startingTime = time.time()
@@ -21,7 +21,7 @@ sendAfterX = 1 + abs(int(3600 * sendEveryH))
 while(True):
 	while(currentTime-startingTime > sendAfterX):
 		# connect to db
-		client = pymongo.MongoClient("mongodb+srv://{}:{}@devicesdata.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl))
+		client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl, configCred.db))
 		db = client[configCred.db]
 
 		# set camera, and resolution
@@ -44,7 +44,7 @@ while(True):
 
 		with open(filename, "rb") as f:
 			encoded = Binary(f.read())
-			coll.insert_many([{"Device": configCred.user,"filename": filename, "file": encoded, "Cords": configCred.cords}], ordered=False)
+			coll.insert_many([{"title": configCred.user, "description": configCred.description ,"image": encoded, "latitude": configCred.latitude , "longitude": configCred.longitude}], ordered=False)
 
 
 		# remove saved image from local drive
