@@ -20,7 +20,7 @@ const cameraEntry = new Schema({
     maxlength: [10, 'Title must be less than 10 characters'],
   },
   description: String,
-  image: String,
+  image: Buffer,
   latitude: {
     type: Number,
     required: true,
@@ -37,7 +37,7 @@ const cameraEntry = new Schema({
   timestamps: true,
 });
 
-const CameraEntry = mongoose.model('CameraEntry', cameraEntry);
+const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data');
 
 module.exports = CameraEntry;
 

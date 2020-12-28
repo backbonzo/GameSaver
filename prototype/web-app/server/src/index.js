@@ -3,11 +3,11 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 require('dotenv').config(); // Automatically read .env if exist
 
 // Moving middleware functions into their own file
 const middelwares = require('./middlewares');
+// Router below
 const devices = require('./api/devices');
 
 const app = express();
@@ -17,9 +17,11 @@ mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
+  // eslint-disable-next-line no-console
   console.log('Connected to database ');
 })
   .catch((err) => {
+    // eslint-disable-next-line no-console
     console.error(`Error connecting to the database. \n${err}`);
   });
 
@@ -50,5 +52,6 @@ app.use(middelwares.errorHandler);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Listening at http://localhost:${port}`);
 });
