@@ -11,7 +11,7 @@ const { Schema } = mongoose;
 // * Data(raw data for debugging)
 
 /* eslint-disable no-unused-vars */
-const cameraSchema = new Schema({
+const cameraEntry = new Schema({
   title: {
     type: String,
     required: [true, 'Please enter a title'],
@@ -20,7 +20,7 @@ const cameraSchema = new Schema({
     maxlength: [10, 'Title must be less than 10 characters'],
   },
   description: String,
-  image: String,
+  image: Buffer,
   latitude: {
     type: Number,
     required: true,
@@ -33,17 +33,13 @@ const cameraSchema = new Schema({
     min: -180,
     max: 180,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
 }, {
   timestamps: true,
 });
 
-const CameraSchema = mongoose.model('CameraSchema', cameraSchema);
+const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data');
 
-module.exports = CameraSchema;
+module.exports = CameraEntry;
 
 // Saving old schema, testing with test schema
 /*
@@ -84,3 +80,9 @@ const cameraSchema = new Schema({
   timestamps: true,
 });
 */
+/*
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  */
