@@ -1,7 +1,9 @@
 import configCredd
-user=user2
-password=password2
-cords=cords2
-cl=cl2
-db=db2
-coll=coll2
+user=configCredd.user
+password=configCredd.password
+cl=configCredd.cl
+db=configCredd.db
+coll=configCredd.coll
+description=configCredd.description
+latitude=configCredd.latitude
+longitude=configCredd.longitude
