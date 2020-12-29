@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import ReactMapGL , { Marker } from 'react-map-gl';
+import ReactMapGL , { Marker, Popup } from 'react-map-gl';
 
 import { listDeviceEntries } from './API';
 
 const App = () => {
   // State variable deviceEntries starts of as an empty array
   const [deviceEntries, setDeviceEntries] = useState([]);
+  const [showPopup, setShowPopup] = useState({});
   const [viewport, setViewport] = useState({
     width: '100vw',
     height: '100vh',
@@ -14,6 +15,8 @@ const App = () => {
     longitude: 15.205714623985314,
     zoom: 3
   });
+  //TEST
+  const [deviceDate, setDeviceDate] = useState([]);
 
   // Empty dependenciy array
   // we only want this func to run once when it gets mounted
@@ -23,8 +26,13 @@ const App = () => {
       const deviceEntries = await listDeviceEntries();
       setDeviceEntries(deviceEntries);
       console.log(deviceEntries);
+      
+      //TEST Loop through the array from API and map every _id.
+      const result = deviceEntries.map(person => ({id: person._id}));
+      console.log(result);
+      setDeviceDate(result);
     })();
-  }, []); // Normaly in array we put the dependent props/states that rerun the func but now we only want it to run once
+  }, []); // Normaly in the array we put the dependent props/states that rerun the func but now we only want it to run once
 
   return (
     <ReactMapGL
@@ -36,31 +44,49 @@ const App = () => {
     >
       {
         deviceEntries.map(entry => (
-          <Marker
-            key={entry._id}
-            latitude={entry.latitude}
-            longitude={entry.longitude}
-            offsetLeft={-12} 
-            offsetTop={-24}
-          >
-            <div>
-              {/* <svg 
-                className="marker"
-                style={{
-                  width: '24px',//`calc(1vmin * ${viewport.zoom})`
-                  height: '24px',
-                }}
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                fill="none"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                >
-                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle>
-              </svg> */}
-              <img className="marker" src="https://i.imgur.com/y0G5YTX.png" alt="Map Marker"></img>
-            </div>
-          </Marker>
+          <>
+            <Marker
+              key={entry._id}
+              latitude={entry.latitude}
+              longitude={entry.longitude}
+              title={entry.title}
+            >
+              <div
+                onClick={() => setShowPopup({
+                  // ...showPopup,
+                  [entry._id]: true
+                })}
+              >
+                <img 
+                  className="marker"
+                  style={{
+                    height: 6 * `${viewport.zoom}`,
+                    width: 6 * `${viewport.zoom}`,
+                  }}
+                  src="https://i.imgur.com/y0G5YTX.png"
+                  alt="Map Marker"
+                />
+              </div>
+            </Marker>
+            {
+              showPopup[entry._id] ? (
+                <Popup
+                  latitude={entry.latitude}
+                  longitude={entry.longitude}
+                  closeButton={true}
+                  closeOnClick={false}
+                  dynamicPosition={true}
+                  onClose={() => setShowPopup({})}
+                  anchor="top">
+                  <div className="popup">
+                    <h3 style={{textAlign: "center"}}>{entry.title}</h3>
+                    <p style={{ textAlign: "center" }}>{entry.description}</p>
+                    <small style={{ textAlign: "center" }}>"Date WILL be here soon"</small> {/* new Date(entry.something).toLocaleDateString */}
+                  </div>
+                </Popup>
+              ) : null
+            }
+          </>
         ))
       }
     </ReactMapGL>
