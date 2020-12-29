@@ -1,10 +1,19 @@
-import picamera
+import pygame
+import pygame.camera
 import time
 import pymongo
 import bson
 import configCred
 import os
 from bson.binary import Binary
+
+# init camera and pygame
+pygame.init()
+pygame.camera.init()
+
+# set up camera
+listOfCamera = pygame.camera.list_cameras()
+cam = pygame.camera.Camera(listOfCamera[0],(1280,720))
 
 # var that acts as hours which will be multiplied by 3600 sec 
 sendEveryH = 0.00277
@@ -24,20 +33,18 @@ while(True):
 		client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl, configCred.db))
 		db = client[configCred.db]
 
-		# set camera, and resolution
-		cam = picamera.PiCamera()
-		cam.resolution = (1280, 720)
-
-
+		# start camera
+		cam.start()
+		
 		# lets camera to focus during 5 sec
 		time.sleep(5)
 
-		# save image
-		current_date = time.strftime("%H:%M:%S", time.localtime())
+		# create filename
+		filename = "img.png"
 
-		filename = "img_{}.png".format(current_date)
-
-		cam.capture(filename)
+		# capture image and save it 
+		img = cam.get_image()
+		pygame.image.save(img, filename)
 
 		# save image to db
 		coll = db[configCred.coll]
@@ -53,8 +60,8 @@ while(True):
 
 		# close the cam and db con
 		client.close()
-		cam.close()
-		
+		cam.stop
+		print("sent")
 		# reset starting point
 		startingTime = time.time()
 
