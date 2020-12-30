@@ -15,6 +15,20 @@ body {
   transform: translate(-50%, -100%);
 }
 
+.marker.red path {
+  fill: red;
+}
+
+.marker.yellow path {
+  fill: #f3b73e;
+}
+
 .popup {
-  max-width: 300px;
+  max-width: 400px;
+}
+
+.device-form label {
+  margin: 0.5rem;
+  display: block;
+  width: 100%;
 }
