@@ -24,11 +24,16 @@ body {
 }
 
 .popup {
-  max-width: 400px;
+  max-width: 40vw;
+  padding: 1rem;
 }
 
-.device-form label {
-  margin: 0.5rem;
+.device-form label, 
+.device-form input, 
+.device-form textarea, 
+.device-form button {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
   display: block;
   width: 100%;
 }

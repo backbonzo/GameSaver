@@ -147,7 +147,7 @@ const App = () => {
               onClose={() => setAddMarkerLocation(null)}
               anchor="top">
               <div className="popup">
-                <DeviceForm />
+                <DeviceForm location={addMarkerLocation} />
               </div>
             </Popup>
           </>
