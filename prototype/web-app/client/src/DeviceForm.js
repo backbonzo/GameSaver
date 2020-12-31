@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 
 import { createDeviceMarker } from './API';
 
-export const DeviceForm = ({ location }) => {
+// call location and onClose to pass as prop to component
+export const DeviceForm = ({ location, onClose }) => {
   // set state to false and once we make the POSTchange state to true
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -18,13 +19,13 @@ export const DeviceForm = ({ location }) => {
       data.latitude = location.latitude;
       data.longitude = location.longitude;
       // below use function createDeviceMarker inside of API
-      const created = await createDeviceMarker(data);
-      console.log(created);
+      await createDeviceMarker(data);
+      onClose(); //this calls the function IN the PARENT
     } catch (error) {
       console.log(error);
       setError(error.message);
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

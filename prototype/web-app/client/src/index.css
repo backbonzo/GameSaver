@@ -32,6 +32,10 @@ body {
   padding: 1rem;
 }
 
+.popup image {
+  width: 100%;
+}
+
 .device-form label, 
 .device-form input, 
 .device-form textarea, 

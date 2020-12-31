@@ -17,27 +17,32 @@ const App = () => {
     longitude: 15.205714623985314,
     zoom: 3
   });
+
+  const getDevices = async () => {
+    const deviceEntries = await listDeviceEntries();
+    setDeviceEntries(deviceEntries);
+    //console.log(deviceEntries);
+
+    // Loop through the array from API and convert ever first 4 bytes
+    // Of _id to string and then parse that into a date
+    for (let i = 0; i < deviceEntries.length; i++) {
+      let obj = deviceEntries[i];
+      //console.log("This is number " + i);
+      //console.log(obj._id);
+      let timestamp = obj._id.toString().substring(0, 8);
+      let date = new Date(parseInt(timestamp, 16) * 1000);
+      deviceEntries[i].newDate = date;
+      //console.log(deviceEntries[i]);
+    }
+  };
+
   // Empty dependenciy array
   // we only want this func to run once when it gets mounted
   useEffect(() => {
-    // ASYNC IFFY since whole function depends on async func
-    (async () =>  {
-      const deviceEntries = await listDeviceEntries();
-      setDeviceEntries(deviceEntries);
-      console.log(deviceEntries);
-      
-      // Loop through the array from API and convert ever first 4 bytes
-      // Of _id to string and then parse that into a date
-      for (let i = 0; i < deviceEntries.length; i++) {
-        let obj = deviceEntries[i];
-        //console.log("This is number " + i);
-        //console.log(obj._id);
-        let timestamp = obj._id.toString().substring(0, 8);
-        let date = new Date(parseInt(timestamp, 16) * 1000); 
-        deviceEntries[i].newDate = date;
-        //console.log(deviceEntries[i]);
-      }
-    })();
+    let t0 = performance.now()
+    getDevices();
+    var t1 = performance.now()
+    console.log("Call to getDevices took " + (t1 - t0) + " milliseconds.");
   }, []); // Normaly in the array we put the dependent props/states that rerun the func but now we only want it to run once
 
   const showAddMarkerPopup = (event) => {
@@ -58,10 +63,11 @@ const App = () => {
       onDblClick={showAddMarkerPopup}
     >
       {
-        deviceEntries.map(entry => (
-          <>
+      deviceEntries.map(entry => (
+        // We are mapping every entry from deviceEntries array
+        // Into a fragment(with no parents) for each one (every marker is a created fragment)
+          <React.Fragment key={entry._id}>
             <Marker
-              key={entry._id}
               latitude={entry.latitude}
               longitude={entry.longitude}
               title={entry.title}
@@ -91,8 +97,10 @@ const App = () => {
               </div>
             </Marker>
             {
+              // IF showPopup(true) then show it, otherwise show null
               showPopup[entry._id] ? (
                 <Popup
+                // This is the popup for the information once we click
                   latitude={entry.latitude}
                   longitude={entry.longitude}
                   closeButton={true}
@@ -103,16 +111,21 @@ const App = () => {
                   <div className="popup">
                     <h3 style={{textAlign: "center"}}>{entry.title}</h3>
                     <p style={{ textAlign: "center" }}>{entry.description}</p>
+                  {entry.img && <img src={"data:image/png;base64," + entry.image} alt="No Found?" />}
+                  {console.log(entry.img)}
+                  { 
+                  //TODO - FIX IMAGE NOT DISPLAYING SAYS UNDEFINED 
+                  }
               <small style={{ textAlign: "center" }}>Last update at: {new Date(entry.newDate).toLocaleDateString()}</small> {/* new Date(entry.something).toLocaleDateString */}
                   </div>
                 </Popup>
               ) : null
             }
-          </>
+          </React.Fragment>
         ))
       }
       {
-        // IF addMarkerLocation is a thing then show popup otherwise show nothing
+        // IF addMarkerLocation(true) then show popup otherwise show nothing
         addMarkerLocation ? (
           <>
             <Marker
@@ -124,6 +137,7 @@ const App = () => {
                 <svg 
                   className="marker red"
                   style={{
+                    // we set the size according to the zoom level
                     height: 6 * `${viewport.zoom}`,
                     width: 6 * `${viewport.zoom}`,
                   }}
@@ -139,6 +153,7 @@ const App = () => {
               </div>
             </Marker>
             <Popup
+            // this is the popup component
               latitude={addMarkerLocation.latitude}
               longitude={addMarkerLocation.longitude}
               closeButton={true}
@@ -147,7 +162,12 @@ const App = () => {
               onClose={() => setAddMarkerLocation(null)}
               anchor="top">
               <div className="popup">
-                <DeviceForm location={addMarkerLocation} />
+                <DeviceForm onClose={() => {
+                  // once we close the add popup we close the modal
+                  // and we refresh the list of devices
+                  setAddMarkerLocation(null);
+                  getDevices();
+                }} location={addMarkerLocation} />
               </div>
             </Popup>
           </>
