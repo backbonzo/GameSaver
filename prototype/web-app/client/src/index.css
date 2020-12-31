@@ -15,8 +15,12 @@ body {
   transform: translate(-50%, -100%);
 }
 
+.error {
+  color: red;
+}
+
 .marker.red path {
-  fill: red;
+  fill: #f05305;
 }
 
 .marker.yellow path {
