@@ -15,7 +15,6 @@ router.get('/', async (req, res, next) => {
 });
 
 // post request that inputs data into the db, not needed for now only for testing.
-/*
 router.post('/', async (req, res, next) => {
   try {
     const cameraEntry = new CameraEntry(req.body);
@@ -30,5 +29,5 @@ router.post('/', async (req, res, next) => {
     next(error);
   }
 });
-*/
+
 module.exports = router;
