@@ -17,5 +17,6 @@ export async function createDeviceMarker(device) {
     },
     body: JSON.stringify(device),
   });
+  console.log(response.json);
   return response.json();
 }

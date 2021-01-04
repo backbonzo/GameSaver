@@ -9,9 +9,6 @@ body {
 }
 
 .marker {
-  /*stroke: #f8c102;*/
-  /* height: 24px;
-  width: 24px; */
   transform: translate(-50%, -100%);
 }
 
@@ -30,10 +27,15 @@ body {
 .popup {
   max-width: 40vw;
   padding: 1rem;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
 }
 
-.popup image {
-  width: 100%;
+.popup img {
+  max-width: 50%;
+  display:block;
+  margin:auto;
 }
 
 .device-form label, 

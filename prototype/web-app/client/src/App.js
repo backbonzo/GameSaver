@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import ReactMapGL , { Marker, Popup } from 'react-map-gl';
+import * as base64 from "byte-base64";
 
 import { listDeviceEntries } from './API';
 import { DeviceForm } from './DeviceForm';
@@ -21,18 +22,27 @@ const App = () => {
   const getDevices = async () => {
     const deviceEntries = await listDeviceEntries();
     setDeviceEntries(deviceEntries);
-    //console.log(deviceEntries);
+    console.log(deviceEntries);
 
     // Loop through the array from API and convert ever first 4 bytes
     // Of _id to string and then parse that into a date
     for (let i = 0; i < deviceEntries.length; i++) {
       let obj = deviceEntries[i];
-      //console.log("This is number " + i);
-      //console.log(obj._id);
       let timestamp = obj._id.toString().substring(0, 8);
       let date = new Date(parseInt(timestamp, 16) * 1000);
       deviceEntries[i].newDate = date;
-      //console.log(deviceEntries[i]);
+      
+      // Creating empty array and loop through the data buffer array we get and push all of those arrays into
+      // one single array we created above
+      // the use base64 lib and covert it to base64 from bytes.
+      // once done push the converted string into the image value in deviceEntries JSON.
+      //TODO Make this conversion server-side to speed up front-end
+      let img_arr2 = [];
+      for (let i = 0; i < obj.image.data.length; i++) {
+        img_arr2.push(obj.image.data[i]);
+      }
+      let test_img = base64.bytesToBase64(img_arr2);
+      deviceEntries[i].image = test_img;
     }
   };
 
@@ -103,6 +113,8 @@ const App = () => {
                 // This is the popup for the information once we click
                   latitude={entry.latitude}
                   longitude={entry.longitude}
+                  image_src={entry.image}
+
                   closeButton={true}
                   closeOnClick={false}
                   dynamicPosition={true}
@@ -111,12 +123,8 @@ const App = () => {
                   <div className="popup">
                     <h3 style={{textAlign: "center"}}>{entry.title}</h3>
                     <p style={{ textAlign: "center" }}>{entry.description}</p>
-                  {entry.img && <img src={"data:image/png;base64," + entry.image} alt="No Found?" />}
-                  {console.log(entry.img)}
-                  { 
-                  //TODO - FIX IMAGE NOT DISPLAYING SAYS UNDEFINED 
-                  }
-              <small style={{ textAlign: "center" }}>Last update at: {new Date(entry.newDate).toLocaleDateString()}</small> {/* new Date(entry.something).toLocaleDateString */}
+                    {entry.image && <img src={"data:image/png;base64," + entry.image} alt="Not Found" />}
+                    <small style={{ textAlign: "center", display: "block" }}>Last update at: {new Date(entry.newDate).toLocaleDateString()}</small>
                   </div>
                 </Popup>
               ) : null
