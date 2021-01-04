@@ -17,7 +17,7 @@ const cameraEntry = new Schema({
     required: [true, 'Please enter a title'],
     unique: true,
     trim: true,
-    maxlength: [20, 'Title must be less than 20 characters'],
+    maxlength: [40, 'Title must be less than 40 characters'],
   },
   description: String,
   image: Buffer,

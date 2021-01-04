@@ -33,9 +33,16 @@ body {
 }
 
 .popup img {
+  /*
   max-width: 50%;
   display:block;
   margin:auto;
+  */
+  height: 200px;
+  width: auto;
+  text-align: center;
+  margin: 0 auto;
+  display: block;
 }
 
 .device-form label, 

@@ -1,6 +1,12 @@
 const { Router } = require('express');
 // importing our schema
 const CameraEntry = require('../models/CameraEntry');
+
+// DE-structure API_KEY from process.env
+const {
+  API_KEY,
+} = process.env;
+
 // creating the router
 const router = Router();
 
@@ -17,6 +23,10 @@ router.get('/', async (req, res, next) => {
 // post request that inputs data into the db, not needed for now only for testing.
 router.post('/', async (req, res, next) => {
   try {
+    if (req.get('X-API-KEY') !== API_KEY) {
+      res.status(401);
+      throw new Error('UnAuthorized');
+    }
     const cameraEntry = new CameraEntry(req.body);
     const createdEntry = await cameraEntry.save();
     res.json(createdEntry);
