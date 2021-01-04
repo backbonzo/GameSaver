@@ -9,12 +9,41 @@ body {
 }
 
 .marker {
-  /*stroke: #f8c102;*/
-  /* height: 24px;
-  width: 24px; */
   transform: translate(-50%, -100%);
 }
 
+.error {
+  color: red;
+}
+
+.marker.red path {
+  fill: #f05305;
+}
+
+.marker.yellow path {
+  fill: #f3b73e;
+}
+
 .popup {
-  max-width: 300px;
+  max-width: 40vw;
+  padding: 1rem;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+}
+
+.popup img {
+  max-width: 50%;
+  display:block;
+  margin:auto;
+}
+
+.device-form label, 
+.device-form input, 
+.device-form textarea, 
+.device-form button {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+  display: block;
+  width: 100%;
 }
