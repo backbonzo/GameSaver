@@ -32,3 +32,6 @@
 *.app
 
 # USER CONFIGURED
+
+.vercel
+prototype/web-app/server/now.json
