@@ -34,6 +34,8 @@ export const DeviceForm = ({ location, onClose }) => {
     <form onSubmit={handleSubmit(onSubmit)} className="device-form">
       {/* Below syntax say that IF error(true) then show H3 with error ELSE show null/nothing */}
       { error ? <h3 className="error">{error}</h3> : null}
+      <label htmlFor="apiKey">API KEY</label>
+      <input type="password" name="apiKey" required ref={register} />
       <label htmlFor="title">Title</label>
       <input name="title" required ref={register} />
       <label htmlFor="description">Description</label>

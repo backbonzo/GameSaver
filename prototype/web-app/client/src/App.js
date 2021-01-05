@@ -22,7 +22,6 @@ const App = () => {
   const getDevices = async () => {
     const deviceEntries = await listDeviceEntries();
     setDeviceEntries(deviceEntries);
-    console.log(deviceEntries);
 
     // Loop through the array from API and convert ever first 4 bytes
     // Of _id to string and then parse that into a date

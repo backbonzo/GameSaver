@@ -17,7 +17,7 @@ const cameraEntry = new Schema({
     required: [true, 'Please enter a title'],
     unique: true,
     trim: true,
-    maxlength: [20, 'Title must be less than 20 characters'],
+    maxlength: [40, 'Title must be less than 40 characters'],
   },
   description: String,
   image: Buffer,
@@ -40,49 +40,3 @@ const cameraEntry = new Schema({
 const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data');
 
 module.exports = CameraEntry;
-
-// Saving old schema, testing with test schema
-/*
-const cameraSchema = new Schema({
-  title: {
-    type: String,
-    required: [true, 'Please enter a title'],
-    unique: true,
-    trim: true,
-    maxlength: [10, 'Title must be less than 10 characters'],
-  },
-  description: {
-    type: String,
-  },
-  location: {
-    type: {
-      type: String,
-      enum: ['Point'],
-    },
-    coordinates: {
-      type: [Number],
-      index: '2dsphere',
-    },
-    formatted_address: String,
-    countryCode: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  image: String,
-  img: {
-    data: Buffer,
-    contentType: String,
-  },
-}, {
-  timestamps: true,
-});
-*/
-/*
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  */
