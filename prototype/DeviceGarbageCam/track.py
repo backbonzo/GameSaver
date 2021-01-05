@@ -5,6 +5,7 @@ import pymongo
 import bson
 import configCred
 import os
+import gridfs
 from bson.binary import Binary
 
 # init camera and pygame
@@ -29,39 +30,45 @@ sendAfterX = 1 + abs(int(3600 * sendEveryH))
 
 while(True):
 	while(currentTime-startingTime > sendAfterX):
-		# connect to db
-		client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl, configCred.db))
-		db = client[configCred.db]
-
-		# start camera
-		cam.start()
 		
-		# lets camera to focus during 5 sec
-		time.sleep(5)
+		try:
+			# connect to db
+			client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl, configCred.db))
+			db = client[configCred.db]
+			fs = gridfs.GridFS(db)
 
-		# create filename
-		filename = "img.png"
+			# start camera
+			cam.start()
+			
+			# lets camera to focus during 5 sec
+			time.sleep(5)
 
-		# capture image and save it 
-		img = cam.get_image()
-		pygame.image.save(img, filename)
+			# create filename
+			filename = "img.png"
 
-		# save image to db
-		coll = db[configCred.coll]
+			# capture image and save it 
+			img = cam.get_image()
+			pygame.image.save(img, filename)
 
-		with open(filename, "rb") as f:
-			encoded = Binary(f.read())
-			coll.insert_many([{"title": configCred.user, "description": configCred.description ,"image": encoded, "latitude": configCred.latitude , "longitude": configCred.longitude}], ordered=False)
+			# save image to db
+			coll = db[configCred.coll]
+
+			with open(filename, "rb") as f:
+				imageData = f.read()
+				fsId = fs.put(imageData, title=configCred.user)
+				coll.insert_many([{"title": configCred.user, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude}], ordered=False)
 
 
-		# remove saved image from local drive
-		if filename.endswith('.png'):
-			os.remove(filename)
+			# remove saved image from local drive
+			if filename.endswith('.png'):
+				os.remove(filename)
 
-		# close the cam and db con
-		client.close()
-		cam.stop
-		print("sent")
+			# close the cam and db con
+			client.close()
+			cam.stop
+			print("sent")
+		except:
+			print("error")
 		# reset starting point
 		startingTime = time.time()
 
