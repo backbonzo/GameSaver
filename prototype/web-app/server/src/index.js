@@ -16,6 +16,7 @@ const middelwares = require('./middlewares');
 // Routing below
 const devices = require('./api/devices');
 /* const fileTransfer = require('./api/files'); */
+const CameraEntry = require('./models/CameraEntry');
 
 const app = express();
 
@@ -42,9 +43,7 @@ const conn = mongoose.createConnection(process.env.DATABASE_URL, {
   gfs.collection('fs');
 });
 
-// Pass connection instance to cameraEntry.js
-let CameraEntry = require('./models/CameraEntry')(conn);
-//let devicejs = require('./api/devices')(conn);
+const CameraEntryModelCon = conn.model('CameraEntry', CameraEntry, 'data');
 
 // Define app as express use
 // Morgan, Helmet and Cors with this.
@@ -91,4 +90,4 @@ app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
 
-module.exports = conn;
+module.exports = { conn, CameraEntryModelCon };
