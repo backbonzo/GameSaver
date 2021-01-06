@@ -1,7 +1,6 @@
 const { Router } = require('express');
 // importing our schema
 const CameraEntry = require('../models/CameraEntry');
-
 // DE-structure API_KEY from process.env
 const {
   API_KEY,
@@ -31,6 +30,7 @@ router.post('/', async (req, res, next) => {
     const createdEntry = await cameraEntry.save();
     res.json(createdEntry);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error.name);
     if (error.name === 'ValidationError') {
       res.status(422);

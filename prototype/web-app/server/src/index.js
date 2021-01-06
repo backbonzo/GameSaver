@@ -3,27 +3,48 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
+// GRIDFS TEST REQS
+const crypto = require('crypto');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const Grid = require('gridfs-stream');
+
 require('dotenv').config(); // Automatically read .env if exist
 
 // Moving middleware functions into their own file
 const middelwares = require('./middlewares');
-// Router below
+// Routing below
 const devices = require('./api/devices');
+/* const fileTransfer = require('./api/files'); */
 
 const app = express();
 
 // Connecting to mongoDB using mongoose ORM.
+/*
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
   // eslint-disable-next-line no-console
   console.log('Connected to database ');
-})
-  .catch((err) => {
-    // eslint-disable-next-line no-console
-    console.error(`Error connecting to the database. \n${err}`);
-  });
+}).catch((err) => {
+  // eslint-disable-next-line no-console
+  console.error(`Error connecting to the database. \n${err}`);
+});
+*/
+let gfs;
+const conn = mongoose.createConnection(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).once('open', () => {
+  // Init stream
+  gfs = Grid(conn.db, mongoose.mongo);
+  gfs.collection('fs');
+});
+
+// Pass connection instance to cameraEntry.js
+let CameraEntry = require('./models/CameraEntry')(conn);
+//let devicejs = require('./api/devices')(conn);
 
 // Define app as express use
 // Morgan, Helmet and Cors with this.
@@ -43,9 +64,23 @@ app.get('/', (req, res) => {
   });
 });
 
+/* app.use('api/files', fileTransfer); */
+
 // We use the router before the notFound since we want it to register
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
+
+app.get('/files', (req, res) => {
+  gfs.files.find().toArray((err, files) => {
+    // If files exist
+    if (!files || files.length === 0) {
+      res.status(404);
+      throw new Error('No files were found');
+    }
+    // Files exist
+    return res.json(files);
+  });
+});
 
 app.use(middelwares.notFound);
 app.use(middelwares.errorHandler);
@@ -55,3 +90,5 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening at http://localhost:${port}`);
 });
+
+module.exports = conn;
