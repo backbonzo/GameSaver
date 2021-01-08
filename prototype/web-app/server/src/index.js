@@ -74,10 +74,11 @@ app.get('/', (req, res) => {
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
 
+// Below is TEST 1, using gfs findOne which renders the picutre only partly not the whole chunk
 app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
   res.contentType('image/png');
-  gfs.files.findOne({ _id: fileId }, (file, err) => {
+  gfs.files.findOne({ _id: fileId }, (files, err) => {
     /* if (!file || file.length === 0) {
       console.log(`FILE_MF: ${file}`);
       return res.status(404).json({
@@ -89,14 +90,40 @@ app.get('/file/:id', (req, res) => {
     // read output
     // const readstream = gfs.createReadStream(file.id);
     // readstream.pipe(res);
+    /* if (files.length < 0) {
+      console.log('Files was less then zero');
+      console.log(files.length);
+    } */
     const readstream = gfs.createReadStream({
       _id: fileId,
     });
     readstream.pipe(res);
-    // return res;
   });
 });
 
+// BELOW IS TEST 2, using gfs.FIND instead of FindOne(seems to not be supported anymore)
+app.get('/file1/:id', (req, res) => {
+  res.contentType('image/png');
+  gfs.find({ _id: req.params.id }).toArray((err, files) => {
+    // if files
+    if (!files || files.length === 0) {
+      // eslint-disable-next-line no-console
+      console.log('Files not found');
+    }
+    const readstream = gfs.createReadStream({
+      _id: req.params.id,
+    });
+    readstream.on('data', (chunk) => {
+      res.write(chunk);
+    });
+    readstream.on('end', () => {
+      res.end();
+    });
+    readstream.pipe(res);
+  });
+});
+
+// Route to display all files disable this in production
 app.get('/allfiles', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // If files exist
