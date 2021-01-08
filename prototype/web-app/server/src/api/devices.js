@@ -1,7 +1,6 @@
 const { Router } = require('express');
 // importing our schema
 const CameraEntry = require('../models/CameraEntry');
-const CameraEntryModelCon = require('../index');
 
 // DE-structure API_KEY from process.env
 const {
@@ -14,7 +13,7 @@ const router = Router();
 // simple get to see all queries in db
 router.get('/', async (req, res, next) => {
   try {
-    const entries = await CameraEntryModelCon.find();
+    const entries = await CameraEntry.find();
     res.json(entries);
   } catch (error) {
     next(error);

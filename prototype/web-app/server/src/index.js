@@ -16,12 +16,11 @@ const middelwares = require('./middlewares');
 // Routing below
 const devices = require('./api/devices');
 /* const fileTransfer = require('./api/files'); */
-const CameraEntry = require('./models/CameraEntry');
 
 const app = express();
 
+let gfs;
 // Connecting to mongoDB using mongoose ORM.
-/*
 mongoose.connect(process.env.DATABASE_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -32,7 +31,15 @@ mongoose.connect(process.env.DATABASE_URL, {
   // eslint-disable-next-line no-console
   console.error(`Error connecting to the database. \n${err}`);
 });
-*/
+mongoose.Promise = global.Promise;
+Grid.mongo = mongoose.mongo;
+const { connection } = mongoose;
+
+connection.once('open', () => {
+  gfs = Grid(connection.db, mongoose.mongo);
+  gfs.collection('fs');
+});
+/*
 let gfs;
 const conn = mongoose.createConnection(process.env.DATABASE_URL, {
   useNewUrlParser: true,
@@ -42,9 +49,7 @@ const conn = mongoose.createConnection(process.env.DATABASE_URL, {
   gfs = Grid(conn.db, mongoose.mongo);
   gfs.collection('fs');
 });
-
-const CameraEntryModelCon = conn.model('CameraEntry', CameraEntry, 'data');
-
+*/
 // Define app as express use
 // Morgan, Helmet and Cors with this.
 app.use(morgan('common'));
@@ -69,7 +74,30 @@ app.get('/', (req, res) => {
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
 
-app.get('/files', (req, res) => {
+app.get('/file/:id', (req, res) => {
+  const fileId = req.params.id;
+  res.contentType('image/png');
+  gfs.files.findOne({ _id: fileId }, (file, err) => {
+    /* if (!file || file.length === 0) {
+      console.log(`FILE_MF: ${file}`);
+      return res.status(404).json({
+        err: 'Could not find what you were looking for',
+      });
+    } */
+    // File exists
+    // return res.json(file);
+    // read output
+    // const readstream = gfs.createReadStream(file.id);
+    // readstream.pipe(res);
+    const readstream = gfs.createReadStream({
+      _id: fileId,
+    });
+    readstream.pipe(res);
+    // return res;
+  });
+});
+
+app.get('/allfiles', (req, res) => {
   gfs.files.find().toArray((err, files) => {
     // If files exist
     if (!files || files.length === 0) {
@@ -90,4 +118,13 @@ app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
 
-module.exports = { conn, CameraEntryModelCon };
+/*
+.toArray((err, files) => {
+    // If files exist
+    if (!files || files.length === 0) {
+      res.status(404);
+      throw new Error('No files were found');
+    }
+    // Files exist
+    return res.json(files);
+  }); */
