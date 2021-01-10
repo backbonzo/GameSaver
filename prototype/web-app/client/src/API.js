@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000';
+const API_URL = 'http://localhost:8080';
 
 export async function listDeviceEntries() {
   let t0 = performance.now();
