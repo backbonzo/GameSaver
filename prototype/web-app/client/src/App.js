@@ -1,7 +1,14 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import {BrowserRouter, Route, Switch} from "react-router-dom";
+
+// costume components
 import Nav from "./components/Nav";
 import Map from "./components/Map";
+import Dashboard from "./components/Dashboard";
+import Account from "./components/Account";
+import LogOut from "./components/LogOut";
+import PageNotFound from "./components/PageNotFound";
 
 import { listDeviceEntries } from './API';
 
@@ -16,7 +23,7 @@ const App = () => {
 
     // Loop through the array from API and convert ever first 4 bytes
     // Of _id to string and then parse that into a date
-    console.log(deviceEntries);
+    //console.log(deviceEntries);
     for (let i = 0; i < deviceEntries.length; i++) {
       let obj = deviceEntries[i];
       let timestamp;
@@ -44,10 +51,27 @@ const App = () => {
   }, []); // Normaly in the array we put the dependent props/states that rerun the func but now we only want it to run once
 
   return (
-
     <div>
-    <Nav />
-    <Map deviceEntries={deviceEntries} getDevices={getDevices} />
+    <BrowserRouter>
+        <Nav />
+        <Switch>
+          <Route path="/" exact render={() => 
+            <Map deviceEntries={deviceEntries} getDevices={getDevices} />
+          } />
+
+          <Route path="/dashboard" exact render={() => 
+            <Dashboard />
+          } />
+
+          <Route path="/account" exact render={() => 
+            <Account />
+          } />
+
+          <Route path="/" render={() => 
+            <PageNotFound />
+          } />
+        </Switch>
+    </BrowserRouter>
     </div>
   );
 }
