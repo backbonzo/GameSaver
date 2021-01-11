@@ -116,7 +116,7 @@ app.get('/file1/:id', (req, res) => {
     readstream.on('data', (chunk) => {
       res.write(chunk);
     });
-    readstream.on('end', () => {
+    readstream.on('end', () => { // WAS HERE
       res.end();
     });
     readstream.pipe(res);

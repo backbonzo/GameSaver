@@ -25,12 +25,14 @@ const App = () => {
 
     // Loop through the array from API and convert ever first 4 bytes
     // Of _id to string and then parse that into a date
+    console.log(deviceEntries);
     for (let i = 0; i < deviceEntries.length; i++) {
       let obj = deviceEntries[i];
       let timestamp = obj._id.toString().substring(0, 8);
       let date = new Date(parseInt(timestamp, 16) * 1000);
       deviceEntries[i].newDate = date;
       
+      /*
       // Creating empty array and loop through the data buffer array we get and push all of those arrays into
       // one single array we created above
       // the use base64 lib and covert it to base64 from bytes.
@@ -42,6 +44,7 @@ const App = () => {
       }
       let test_img = base64.bytesToBase64(img_arr2);
       deviceEntries[i].image = test_img;
+      */
     }
   };
 
@@ -122,7 +125,8 @@ const App = () => {
                   <div className="popup">
                     <h3 style={{textAlign: "center"}}>{entry.title}</h3>
                     <p style={{ textAlign: "center" }}>{entry.description}</p>
-                    {entry.image && <img src={"data:image/png;base64," + entry.image} alt="Not Found" />}
+                  {entry.image_id && <img src={"http://localhost:5000/file/" + entry.image_id} alt="Not Found" />}
+                  {console.log('Testing: ' + entry.image_id)}
                     <small style={{ textAlign: "center", display: "block" }}>Last update at: {new Date(entry.newDate).toLocaleDateString()}</small>
                   </div>
                 </Popup>
