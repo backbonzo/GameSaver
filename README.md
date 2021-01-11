@@ -100,15 +100,16 @@ Here's what the device will send in a JSON format:
 * Image taken by camera
 * Longitude & Latitude
 
-The Web App would then be displaying the information from the database inside of a map. Think Google Maps but it displays markers where the device is. <br />
-Once you click on the marker you can view information about the deive and see a picture that displays how full it is along side with a quick display on how full the device is if the image is unclear.
+The Web App would then be displaying the information from the database inside of a map. <br />
+Think Google Maps but it displays markers where the device is. <br />
+Once you click on the marker you can view information about the device and see a picture that displays how full it is along side with a quick display on how full the device is if the image is unclear.
 There will be a dashboard that can view the infomration in a more structured way too and contain multiple devices for quick listing.
 
 So in general it would feature:
 * A Device mounted inside the container(s).
 * A Web App that shows the information along with the locations on a map.
 
-Of Course we don't have all the features yet. So We'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue.
+We don't have all the features finished or planned out yet. But we'll be adding more in the near future. You may also suggest changes or features by forking this repo and creating a pull request or opening an issue.
 
 So far into the prototype we have a:
 * Device that runs with Raspberry Pi and USB/Pi Cam and sends information and picture to the DB.
@@ -137,6 +138,7 @@ This is require to run the Device:
 * USB Camera
 * A MongoDB Connection
 * Pip
+<br />
 Pip should be installed from Python. Otherwise choose correct way of installing depending on your OS.
 
 
@@ -167,7 +169,7 @@ Pip should be installed from Python. Otherwise choose correct way of installing 
    ```
 5. Run!
    ```sh
-   py track.py
+   python3 track.py
    ```
 
 <!-- GETTING STARTED WEBAPP -->
@@ -181,6 +183,15 @@ This requires NPM to be installed.
 * npm
   ```sh
   npm install npm@latest -g
+  ```
+* MongoDB instance (cloud or local).
+  ```sh
+  Put the connection string into DATABASE_URL inside of servers .env
+  ```
+  
+  * MapBox Account (to get token).
+  ```sh
+  Put the mapbox token into DATABASE_URL inside of clients .env
   ```
 
 ### Installation Web App
@@ -201,7 +212,7 @@ This requires NPM to be installed.
    npm install
    ```
    
-5. Change ENV variables
+5. Change ENV variables for server
    ```sh
    NODE_ENV=development
    PORT=PORT NUMBER
@@ -214,7 +225,16 @@ This requires NPM to be installed.
    npm run dev
    ```
    This requires nodemon to be installed.
+   
+7. Change ENV variables for the client
+   ```sh
+   REACT_APP_MAPBOX_TOKEN=MAPBOX_TOKEN_KEY
+   ```
 
+8. Run the client
+   ```sh
+   npm run start
+   ```
 
 
 <!-- USAGE EXAMPLES -->
@@ -222,7 +242,8 @@ This requires NPM to be installed.
 <!--
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 -->
-Currently we have the devices hard coded. Later on we will publish a demo website that you can access and use the web app.
+Currently we have the devices hard coded. Later on we will publish a demo website that you can access and use to see a few example devices.
+<br />
 It's a bit harder to showcase the Device, we recommend that you run a device on your own with a local setup if you can.
 
 <!-- _For more examples, please refer to the [Documentation](https://example.com)_ -->
@@ -233,7 +254,10 @@ It's a bit harder to showcase the Device, we recommend that you run a device on 
 ## Roadmap
 
 See our [Trello](https://trello.com/b/XL7BJNWe/school-project-v2) for a list of proposed features and todo's (and known issues).
+<br />
 We are currently in the <strong>Prototype</strong> phase.
+<br />
+The biggest change between prototype and finsihed product would be to have a 
 <!-- See the [open issues](https://github.com/backbonzo/SchoolProjectV2/issues) for a list of proposed features (and known issues). -->
 
 
@@ -247,7 +271,7 @@ Contributions are what make the open source community such an amazing place to b
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+5. Open a [Pull Request](https://github.com/backbonzo/SchoolProjectV2/pulls)
 
 
 
