@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // costume components
 import Nav from "./components/Nav";
@@ -16,7 +16,7 @@ const App = () => {
   // State variable deviceEntries starts of as an empty array
   const [deviceEntries, setDeviceEntries] = useState([]);
 
-  
+
   const getDevices = async () => {
     const deviceEntries = await listDeviceEntries();
     setDeviceEntries(deviceEntries);
@@ -27,11 +27,11 @@ const App = () => {
       let obj = deviceEntries[i];
       let timestamp;
       let date;
-      if (obj.image_id !== undefined){
+      if (obj.image_id !== undefined) {
         timestamp = obj.image_id.toString().substring(0, 8);
         date = new Date(parseInt(timestamp, 16) * 1000);
       }
-      else{
+      else {
         date = 0;
       }
       deviceEntries[i].newDate = date;
@@ -49,26 +49,26 @@ const App = () => {
 
   return (
     <div>
-    <BrowserRouter>
+      <BrowserRouter>
         <Nav />
         <Switch>
-          <Route path="/" exact render={ () => 
+          <Route path="/" exact render={() =>
             <Map deviceEntries={deviceEntries} getDevices={getDevices} />
           } />
 
-          <Route path="/dashboard" exact render={ () => 
+          <Route path="/dashboard" exact render={() =>
             <Dashboard />
           } />
 
-          <Route path="/account" exact render={ () => 
+          <Route path="/account" exact render={() =>
             <Account />
           } />
 
-          <Route path="/" render={ () => 
+          <Route path="/" render={() =>
             <PageNotFound />
           } />
         </Switch>
-    </BrowserRouter>
+      </BrowserRouter>
     </div>
   );
 }

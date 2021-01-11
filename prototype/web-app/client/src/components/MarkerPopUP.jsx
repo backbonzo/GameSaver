@@ -2,15 +2,14 @@ import React, {useState} from "react";
 import { Marker, Popup } from 'react-map-gl';
 
 const MarkerPopUP = (props) => {
-
     const [showPopup, setShowPopup] = useState({});
-    
-    return (<div>
-                  {
-          props.deviceEntries.map(entry => (
-            // We are mapping every entry from deviceEntries array
-            // Into a fragment(with no parents) for each one (every marker is a created fragment)
-              <React.Fragment key={entry._id}>
+    return (
+    <div>
+      {
+        props.deviceEntries.map(entry => (
+          // We are mapping every entry from deviceEntries array
+          // Into a fragment(with no parents) for each one (every marker is a created fragment)
+          <React.Fragment key={entry._id}>
                 <Marker
                   latitude={entry.latitude}
                   longitude={entry.longitude}
@@ -66,8 +65,8 @@ const MarkerPopUP = (props) => {
               </React.Fragment>
             ))
           }
-        </div>);
+    </div>
+    );
 }
-
 
 export default MarkerPopUP;

@@ -1,15 +1,11 @@
 import React from "react";
 
-
-const Account = () =>{
-
-
-    return (<div>
-        <h1>
-            Account
+const Account = () => {
+  return (<div>
+    <h1>
+      Account
         </h1>
-    </div>);
-
+  </div>);
 }
 
 export default Account;
