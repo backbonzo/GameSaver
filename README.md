@@ -87,7 +87,8 @@ This is our [Trello](https://trello.com/b/XL7BJNWe/school-project-v2) board for 
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-With this project we aim at solving and helping out with garbage with two main parts: The Web App and The Device <br />
+With this project we aim at solving and helping out with garbage with two main parts: The Web App and The Device. <br />
+<br />
 For example, inside a garbage container we would mount a device inside the garbage container or bin. The device would then send the GPS coordinates along with information to our database.
 The thought later on would be to run Machine Learning on the image and train AI to recognize how full it is and send that information too. That would require us to use another server/middleman to process the image. 
 The last resort would be to use a laser distance measurement device to simply see how much garbage would be inside.
