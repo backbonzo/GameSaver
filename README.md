@@ -200,7 +200,8 @@ This requires NPM to be installed.
 
 ### Installation Web App
 <br />
-Go to this[Readme](https://github.com/Backbonzo/SchoolProjectV2/blob/main/prototype/web-app/README.md) for instructions on how to install the client and server application.
+Go to this [Readme](https://github.com/Backbonzo/SchoolProjectV2/blob/main/prototype/web-app/README.md) for instructions on how to install the client and server application.
+[Readme](https://github.com/Backbonzo/SchoolProjectV2/blob/main/prototype/web-app/README.md)
 <!--
 1. Clone the repo if already not done so.
    ```sh
