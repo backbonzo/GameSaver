@@ -145,7 +145,7 @@ Pip should be installed from Python. Otherwise choose correct way of installing 
 
 ### Installation Device
 <br />
-Go to [this Readme](prototype/DeviceGarbageCam/README.md) for instructions on how to install the device application.
+Go to this [Readme](prototype/DeviceGarbageCam/README.md) for instructions on how to install the device application.
 
 <!--
 1. Clone the repo if already not done so.
@@ -201,7 +201,7 @@ This requires NPM to be installed.
 
 ### Installation Web App
 <br />
-Go to [this README](prototype/web-app/README.md) for instructions on how to install the client and server application.
+Go to this[Readme](prototype/web-app/README.md) for instructions on how to install the client and server application.
 <!--
 1. Clone the repo if already not done so.
    ```sh

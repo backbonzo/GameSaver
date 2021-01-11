@@ -45,4 +45,4 @@ Pip should be installed from Python. Otherwise choose correct way of installing 
    python3 track.py
    ```
    
- ## Congrats, you're done! :sprakles:
+ ## Congrats, you're done! :sparkles:

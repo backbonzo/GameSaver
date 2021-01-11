@@ -61,4 +61,4 @@ This requires NPM to be installed.
    npm run start
    ```
 
- ## Congrats, you're done! :sprakles:
+ ## Congrats, you're done! :sparkles:
