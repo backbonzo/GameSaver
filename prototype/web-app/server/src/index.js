@@ -3,10 +3,13 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
+<<<<<<< HEAD
+=======
 // GRIDFS TEST REQS
 const crypto = require('crypto');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
+>>>>>>> main
 const Grid = require('gridfs-stream');
 
 require('dotenv').config(); // Automatically read .env if exist
@@ -34,6 +37,14 @@ mongoose.connect(process.env.DATABASE_URL, {
 mongoose.Promise = global.Promise;
 Grid.mongo = mongoose.mongo;
 const { connection } = mongoose;
+<<<<<<< HEAD
+
+connection.once('open', () => {
+  gfs = Grid(connection.db, mongoose.mongo);
+  gfs.collection('fs');
+});
+=======
+>>>>>>> main
 
 connection.once('open', () => {
   gfs = Grid(connection.db, mongoose.mongo);
@@ -74,6 +85,21 @@ app.get('/', (req, res) => {
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
 
+<<<<<<< HEAD
+// Below is fetch images,using gfs findOne which renders the picutre only partly not the whole chunk
+app.get('/file/:id', (req, res, next) => {
+  const fileId = req.params.id;
+  res.contentType('image/png');
+  gfs.files.findOne({ _id: fileId }, () => {
+    try {
+      const readstream = gfs.createReadStream({
+        _id: fileId,
+      });
+      readstream.pipe(res);
+    } catch (error) {
+      next(error);
+    }
+=======
 // Below is TEST 1, using gfs findOne which renders the picutre only partly not the whole chunk
 app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
@@ -120,6 +146,7 @@ app.get('/file1/:id', (req, res) => {
       res.end();
     });
     readstream.pipe(res);
+>>>>>>> main
   });
 });
 
