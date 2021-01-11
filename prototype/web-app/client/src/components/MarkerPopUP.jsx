@@ -57,7 +57,7 @@ const MarkerPopUP = (props) => {
                       <div className="popup">
                         <h3 style={{textAlign: "center"}}>{entry.title}</h3>
                         <p style={{ textAlign: "center" }}>{entry.description}</p>
-                        {entry.image_id && <img src={"http://localhost:8080/file/" + entry.image_id} alt="Not Found" />}
+                        {entry.image_id && <img src={`${process.env.REACT_APP_IMAGE_SRC}/file/${entry.image_id}`} alt="Not Found" />}
                         <small style={{ textAlign: "center", display: "block" }}>Last update at: {new Date(entry.newDate).toLocaleDateString()}</small>
                       </div>
                     </Popup>
