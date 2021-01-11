@@ -20,7 +20,9 @@ const cameraEntry = new Schema({
     maxlength: [40, 'Title must be less than 40 characters'],
   },
   description: String,
-  image: Buffer,
+  image_id: {
+    type: mongoose.Schema.ObjectId,
+  },
   latitude: {
     type: Number,
     required: true,

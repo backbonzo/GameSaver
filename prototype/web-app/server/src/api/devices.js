@@ -31,6 +31,7 @@ router.post('/', async (req, res, next) => {
     const createdEntry = await cameraEntry.save();
     res.json(createdEntry);
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error.name);
     if (error.name === 'ValidationError') {
       res.status(422);
