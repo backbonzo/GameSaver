@@ -1,4 +1,12 @@
-# This folder will contain our Prototype.
+# This folder contains our Prototype.
 
-## Enter credentials
-Enter your credentials in configCred.py for the mongodb
+
+## Folders
+* WebApp
+  * Client
+    * Files
+  * Server
+    * Files
+<br />
+* DeviceGarbageCam
+  * Files

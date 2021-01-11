@@ -31,7 +31,8 @@ This is our [Trello](https://trello.com/b/XL7BJNWe/school-project-v2) board for 
   <h3 align="center">Garbage Management</h3>
 
   <p align="center">
-    A Garbage Management app that we created for our school project. We aim at having an embedded device inside the garbage container and send information to a databse.
+    A Garbage Management app that we created for our school project.<br />
+	We aim at having an embedded device inside the garbage container and send information to a databse.<br />
 	Then we will display the devices along with the information inside the web-app on for example a map and dashboard.
     <br />
     <a href="https://github.com/backbonzo/SchoolProjectV2"><strong>View the docs »</strong></a>
@@ -128,7 +129,7 @@ So far into the prototype we have a:
 <!-- GETTING STARTED DEVICE -->
 ## Getting Started With Device
 
-To get a local copy up and running follow these simple steps.
+To get a local copy of the device application up and running follow theese steps.
 
 ### Prerequisites Device
 
@@ -143,7 +144,10 @@ Pip should be installed from Python. Otherwise choose correct way of installing 
 
 
 ### Installation Device
+<br />
+Go to [this Readme](prototype/DeviceGarbageCam/README.md) for instructions on how to install the device application.
 
+<!--
 1. Clone the repo if already not done so.
    ```sh
    git clone https://github.com/backbonzo/SchoolProjectV2.git
@@ -171,11 +175,12 @@ Pip should be installed from Python. Otherwise choose correct way of installing 
    ```sh
    python3 track.py
    ```
+-->
 
 <!-- GETTING STARTED WEBAPP -->
 ## Getting Started With Web App
 
-To get a local copy up and running follow these simple steps.
+To get up and running with the server and the client install the prerequisites and read the installation Readme.
 
 ### Prerequisites Web App
 
@@ -195,7 +200,9 @@ This requires NPM to be installed.
   ```
 
 ### Installation Web App
-
+<br />
+Go to [this README](prototype/web-app/README.md) for instructions on how to install the client and server application.
+<!--
 1. Clone the repo if already not done so.
    ```sh
    git clone https://github.com/backbonzo/SchoolProjectV2.git
@@ -235,7 +242,7 @@ This requires NPM to be installed.
    ```sh
    npm run start
    ```
-
+-->
 
 <!-- USAGE EXAMPLES -->
 ## Usage
