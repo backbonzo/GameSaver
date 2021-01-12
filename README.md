@@ -66,7 +66,7 @@ This is our [Trello](https://trello.com/b/XL7BJNWe/school-project-v2) board for 
       </ul>
     </li>
     <li>
-      <a href="#getting-started-with-device">Getting Started With Device</a>
+      <a href="#getting-started-with-web-app">Getting Started With Web App</a>
       <ul>
 		    <li><a href="#prerequisites-web-app">Prerequisites Web App</a></li>
 		    <li><a href="#installation-web-app">Installation Web App</a></li>
@@ -263,8 +263,11 @@ It's a bit harder to showcase the Device, we recommend that you run a device on 
 See our [Trello](https://trello.com/b/XL7BJNWe/school-project-v2) for a list of proposed features and todo's (and known issues).
 <br />
 We are currently in the <strong>Prototype</strong> phase.
+Heres how the client is designed:
+
+Heres how the server is designed:
 <br />
-The biggest change between prototype and finsihed product would be to have a 
+There will be quite alot of differences between the prototype and the finished product. We will list them below soon. 
 <!-- See the [open issues](https://github.com/backbonzo/SchoolProjectV2/issues) for a list of proposed features (and known issues). -->
 
 
