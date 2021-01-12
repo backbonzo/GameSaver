@@ -1,15 +1,11 @@
 import React from "react";
 
-
-const Logout = () =>{
-
-
-    return (<div>
-        <h1>
-            Logout
+const Logout = () => {
+  return (<div>
+    <h1>
+      Logout
         </h1>
-    </div>);
-
+  </div>);
 }
 
 export default Logout;

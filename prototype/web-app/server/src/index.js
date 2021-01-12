@@ -3,10 +3,6 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
-// GRIDFS TEST REQS
-const crypto = require('crypto');
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 
 require('dotenv').config(); // Automatically read .env if exist
@@ -39,17 +35,7 @@ connection.once('open', () => {
   gfs = Grid(connection.db, mongoose.mongo);
   gfs.collection('fs');
 });
-/*
-let gfs;
-const conn = mongoose.createConnection(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).once('open', () => {
-  // Init stream
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('fs');
-});
-*/
+
 // Define app as express use
 // Morgan, Helmet and Cors with this.
 app.use(morgan('common'));
@@ -79,21 +65,6 @@ app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
   res.contentType('image/png');
   gfs.files.findOne({ _id: fileId }, (files, err) => {
-    /* if (!file || file.length === 0) {
-      console.log(`FILE_MF: ${file}`);
-      return res.status(404).json({
-        err: 'Could not find what you were looking for',
-      });
-    } */
-    // File exists
-    // return res.json(file);
-    // read output
-    // const readstream = gfs.createReadStream(file.id);
-    // readstream.pipe(res);
-    /* if (files.length < 0) {
-      console.log('Files was less then zero');
-      console.log(files.length);
-    } */
     const readstream = gfs.createReadStream({
       _id: fileId,
     });
@@ -144,14 +115,3 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening at http://localhost:${port}`);
 });
-
-/*
-.toArray((err, files) => {
-    // If files exist
-    if (!files || files.length === 0) {
-      res.status(404);
-      throw new Error('No files were found');
-    }
-    // Files exist
-    return res.json(files);
-  }); */

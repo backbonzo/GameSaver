@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ReactMapGL from 'react-map-gl';
 import MarkerPopUP from "./MarkerPopUP";
 import AddMarkerPopUP from "./AddMarkerPopUp";
@@ -8,8 +8,8 @@ const Map = (props) =>{
 
     const [addMarkerLocation, setAddMarkerLocation] = useState(null);
     const [viewport, setViewport] = useState({
-        width: '100vw',
-        height: '100vh',
+        width: window.innerWidth-64,
+        height: window.innerHeight,
         latitude: 59.275160574709794,
         longitude: 15.205714623985314,
         zoom: 3

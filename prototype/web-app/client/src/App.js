@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 // costume components
 import Nav from "./components/Nav";
@@ -9,18 +9,48 @@ import Dashboard from "./components/Dashboard";
 import Account from "./components/Account";
 import LogOut from "./components/LogOut";
 import PageNotFound from "./components/PageNotFound";
+import { Map as MapIcon, Account as AccountIcon, Exit, Dash} from "./components/Icons";
+
 
 import { listDeviceEntries } from './API';
+import Logout from './components/LogOut';
 
 const App = () => {
+
+  // list of pages to render in navbar
+  const pageList = [{
+                  page: 1,
+                  icon: MapIcon,
+                  PagePath: "/",
+                  PageName: "Map"
+                    },
+                  {
+                  page: 2,
+                  icon: Dash,
+                  PagePath: "/dashboard",
+                  PageName: "Dashboard"
+                      },
+                  {
+                  page: 3,
+                  icon: AccountIcon,
+                  PagePath: "/account",
+                  PageName: "Account"
+                      },
+                  {
+                  page: 4,
+                  icon: Exit,
+                  PagePath: "/logout",
+                  PageName: "Logout"
+                      }                    
+                  ];
+
   // State variable deviceEntries starts of as an empty array
   const [deviceEntries, setDeviceEntries] = useState([]);
 
-  
+
   const getDevices = async () => {
     const deviceEntries = await listDeviceEntries();
     setDeviceEntries(deviceEntries);
-
     // Loop through the array from API and convert ever first 4 bytes
     // Of _id to string and then parse that into a date
     //console.log(deviceEntries);
@@ -28,16 +58,14 @@ const App = () => {
       let obj = deviceEntries[i];
       let timestamp;
       let date;
-      if (obj.image_id !== undefined){
+      if (obj.image_id !== undefined) {
         timestamp = obj.image_id.toString().substring(0, 8);
         date = new Date(parseInt(timestamp, 16) * 1000);
       }
-      else{
+      else {
         date = 0;
       }
-      
       deviceEntries[i].newDate = date;
-      
     }
   };
 
@@ -53,24 +81,30 @@ const App = () => {
   return (
     <div>
     <BrowserRouter>
-        <Nav />
-        <Switch>
-          <Route path="/" exact render={() => 
-            <Map deviceEntries={deviceEntries} getDevices={getDevices} />
-          } />
+        <Nav pageList={pageList} />
+        <div style={{marginLeft: "64px"}}>
+          <Switch>
+            <Route path="/" exact render={() => 
+              <Map deviceEntries={deviceEntries} getDevices={getDevices} />
+            } />
 
-          <Route path="/dashboard" exact render={() => 
-            <Dashboard />
-          } />
+            <Route path="/dashboard" exact render={() => 
+              <Dashboard />
+            } />
 
-          <Route path="/account" exact render={() => 
-            <Account />
-          } />
+            <Route path="/account" exact render={() => 
+              <Account />
+            } />
 
-          <Route path="/" render={() => 
-            <PageNotFound />
-          } />
-        </Switch>
+            <Route path="/logout" exact render={() => 
+              <Logout />
+            } />
+
+            <Route path="/" render={() => 
+              <PageNotFound />
+            } />
+          </Switch>
+        </div>
     </BrowserRouter>
     </div>
   );
