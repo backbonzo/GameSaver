@@ -28,7 +28,6 @@ const Nav = (props) => {
                 }} />
                 <SideNav.Nav defaultSelected="/">
                     {props.pageList.map((item) => {
-                        console.log(item.icon());
                     return(    
                     <NavItem key={item.page} eventKey={item.PagePath}>
                         <NavIcon>
