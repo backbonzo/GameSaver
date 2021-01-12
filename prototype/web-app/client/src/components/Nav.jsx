@@ -1,21 +1,50 @@
-import React from "react";
+import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
+import SideNav, {NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 
-function Nav() {
-  const navStyle = {
-    height: "100vh",
-    width: "5vw",
-    position: "absolute",
-    zIndex: "1",
-    backgroundColor: "#c34a36"
-  };
+const Nav = (props) => {
 
-  return <div style={navStyle}>
-    <div>
-      <p className="arrow right">
-      </p>
-    </div>
-  </div>
+    const [expanded, setExpanded] = useState(false);
+    
+
+    let history = useHistory();
+
+    function red(params) {
+        setExpanded(false);
+        history.push(params);
+        }
+    
+        
+    return (<div>
+            <SideNav expanded={expanded} onToggle={() => setExpanded(!expanded)} style={{background: "#90C8EA"}}
+                onSelect={(selected) => {
+                    // Add your code here
+                    red(selected);
+                }}>
+                <SideNav.Toggle style={{background: "#39505D",
+                                        width: "100%"
+                }} />
+                <SideNav.Nav defaultSelected="/">
+                    {props.pageList.map((item) => {
+                    return(    
+                    <NavItem key={item.page} eventKey={item.PagePath}>
+                        <NavIcon>
+                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
+                            {item.icon()}
+                        </NavIcon>
+                        <NavText>
+                            <b style={{color: "black"}}>
+                                {item.PageName}
+                            </b>
+                        </NavText>
+                    </NavItem>
+                    );
+                    })}
+                </SideNav.Nav>
+            </SideNav>
+        </div> );
 }
 
 export default Nav;

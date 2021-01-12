@@ -3,13 +3,6 @@ const morgan = require('morgan');
 const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
-<<<<<<< HEAD
-=======
-// GRIDFS TEST REQS
-const crypto = require('crypto');
-const multer = require('multer');
-const GridFsStorage = require('multer-gridfs-storage');
->>>>>>> main
 const Grid = require('gridfs-stream');
 
 require('dotenv').config(); // Automatically read .env if exist
@@ -37,30 +30,12 @@ mongoose.connect(process.env.DATABASE_URL, {
 mongoose.Promise = global.Promise;
 Grid.mongo = mongoose.mongo;
 const { connection } = mongoose;
-<<<<<<< HEAD
 
 connection.once('open', () => {
   gfs = Grid(connection.db, mongoose.mongo);
   gfs.collection('fs');
 });
-=======
->>>>>>> main
 
-connection.once('open', () => {
-  gfs = Grid(connection.db, mongoose.mongo);
-  gfs.collection('fs');
-});
-/*
-let gfs;
-const conn = mongoose.createConnection(process.env.DATABASE_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}).once('open', () => {
-  // Init stream
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection('fs');
-});
-*/
 // Define app as express use
 // Morgan, Helmet and Cors with this.
 app.use(morgan('common'));
@@ -85,41 +60,11 @@ app.get('/', (req, res) => {
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
 
-<<<<<<< HEAD
-// Below is fetch images,using gfs findOne which renders the picutre only partly not the whole chunk
-app.get('/file/:id', (req, res, next) => {
-  const fileId = req.params.id;
-  res.contentType('image/png');
-  gfs.files.findOne({ _id: fileId }, () => {
-    try {
-      const readstream = gfs.createReadStream({
-        _id: fileId,
-      });
-      readstream.pipe(res);
-    } catch (error) {
-      next(error);
-    }
-=======
 // Below is TEST 1, using gfs findOne which renders the picutre only partly not the whole chunk
 app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
   res.contentType('image/png');
   gfs.files.findOne({ _id: fileId }, (files, err) => {
-    /* if (!file || file.length === 0) {
-      console.log(`FILE_MF: ${file}`);
-      return res.status(404).json({
-        err: 'Could not find what you were looking for',
-      });
-    } */
-    // File exists
-    // return res.json(file);
-    // read output
-    // const readstream = gfs.createReadStream(file.id);
-    // readstream.pipe(res);
-    /* if (files.length < 0) {
-      console.log('Files was less then zero');
-      console.log(files.length);
-    } */
     const readstream = gfs.createReadStream({
       _id: fileId,
     });
@@ -146,7 +91,6 @@ app.get('/file1/:id', (req, res) => {
       res.end();
     });
     readstream.pipe(res);
->>>>>>> main
   });
 });
 
@@ -171,14 +115,3 @@ app.listen(port, () => {
   // eslint-disable-next-line no-console
   console.log(`Listening at http://localhost:${port}`);
 });
-
-/*
-.toArray((err, files) => {
-    // If files exist
-    if (!files || files.length === 0) {
-      res.status(404);
-      throw new Error('No files were found');
-    }
-    // Files exist
-    return res.json(files);
-  }); */
