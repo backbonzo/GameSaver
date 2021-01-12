@@ -38,7 +38,7 @@ while(True):
 			db = client[configCred.db]
 			fs = gridfs.GridFS(db)
 
-			deviceId = ObjectId(("0000000"+configCred.user).encode('utf-8').hex())
+			deviceId = ObjectId(("0000000"+configCred.tempName).encode('utf-8').hex())
 
 			# start camera
 			cam.start()
@@ -58,15 +58,15 @@ while(True):
 
 			with open(filename, "rb") as f:
 				imageData = f.read()
-				fsId = fs.put(imageData, title=configCred.user)
+				fsId = fs.put(imageData, title=configCred.tempName)
 				
 				# check if this device posted before if yes update the info otherwise create new post 
 				document = coll.find_one({'_id': deviceId})
 
 				if (document != None):
-					coll.update_one({'_id':deviceId}, {"$set":{"title": configCred.user, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude}}, upsert=False)
+					coll.update_one({'_id':deviceId}, {"$set":{"title": configCred.tempName, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude}}, upsert=False)
 				else:
-					coll.insert_one({ "_id":deviceId, "title": configCred.user, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude})
+					coll.insert_one({ "_id":deviceId, "title": configCred.tempName, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude})
 
 
 			# remove saved image from local drive

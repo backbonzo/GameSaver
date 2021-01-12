@@ -7,3 +7,4 @@ coll=configCredd.coll
 description=configCredd.description
 latitude=configCredd.latitude
 longitude=configCredd.longitude
+tempName=Raspi3
