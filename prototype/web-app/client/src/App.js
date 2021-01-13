@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 // costume components
 import Nav from "./components/Nav";
 import Map from "./components/Map";
@@ -89,7 +89,7 @@ const App = () => {
             } />
 
             <Route path="/dashboard" exact render={() => 
-              <Dashboard />
+              <Dashboard deviceEntries={deviceEntries} />
             } />
 
             <Route path="/account" exact render={() => 

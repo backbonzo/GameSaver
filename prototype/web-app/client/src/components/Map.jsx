@@ -28,6 +28,7 @@ const Map = (props) =>{
     return (<div>
             <ReactMapGL
             {...viewport}
+            dragRotate={false}
             mapStyle="mapbox://styles/isa080199/ckjper8fi0d9z19rn74aaklc8"
             mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
             onViewportChange={nextViewport => setViewport(nextViewport)}
