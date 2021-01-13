@@ -29,30 +29,35 @@ currentTime = time.time()
 # var that will be x amount of sec, that acts as indicator when to send data after x amount of sec
 sendAfterX = 1 + abs(int(3600 * sendEveryH))
 
-while(True):
-	while(currentTime-startingTime > sendAfterX):
-		
+# Getting length of tempname list
+length = len(configCred.tempName)
+i = 0
+sending = True
+while(sending):
+	#while(currentTime-startingTime > sendAfterX):
+	while(i < length):
 		try:
-			# connect to db
+		# connect to db
 			client = pymongo.MongoClient("mongodb+srv://{}:{}@{}.1tstz.mongodb.net/{}?retryWrites=true&w=majority".format(configCred.user, configCred.password, configCred.cl, configCred.db))
 			db = client[configCred.db]
 			fs = gridfs.GridFS(db)
 
-			deviceId = ObjectId(("0000000"+configCred.tempName).encode('utf-8').hex())
+			deviceId = ObjectId(("0000000"+configCred.tempName[i]).encode('utf-8').hex())
 
 			# start camera
 			cam.start()
 			
 			# lets camera to focus during 5 sec
+			print("Capturing image in 5 seconds..")
 			time.sleep(5)
 
 			# create filename
 			filename = "img.png"
-
-			# capture image and save it 
+            # capture image and save it 
 			img = cam.get_image()
 			pygame.image.save(img, filename)
-
+			print("Image captured")
+		
 			# save image to db
 			coll = db[configCred.coll]
 
@@ -64,10 +69,12 @@ while(True):
 				document = coll.find_one({'_id': deviceId})
 
 				if (document != None):
-					coll.update_one({'_id':deviceId}, {"$set":{"title": configCred.tempName, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude}}, upsert=False)
+					print("Updating document")
+					coll.update_one({'_id':deviceId}, {"$set":{"title": configCred.tempName[i], "description": configCred.description[i] ,"image_id": fsId, "latitude": configCred.latitude[i] , "longitude": configCred.longitude[i]}}, upsert=False)
 				else:
-					coll.insert_one({ "_id":deviceId, "title": configCred.tempName, "description": configCred.description ,"image_id": fsId, "latitude": configCred.latitude , "longitude": configCred.longitude})
-
+					print("Inserting new document")
+					coll.insert_one({ "_id":deviceId, "title": configCred.tempName[i], "description": configCred.description[i] ,"image_id": fsId, "latitude": configCred.latitude[i] , "longitude": configCred.longitude[i]})
+			
 
 			# remove saved image from local drive
 			if filename.endswith('.png'):
@@ -75,12 +82,15 @@ while(True):
 
 			# close the cam and db con
 			client.close()
-			cam.stop
-			print("sent")
+			cam.stop()
+			print("Sent document to mongoDB")
+			i += 1
 		except:
-			print("error")
+			print("Unexpected Error")
 		# reset starting point
 		startingTime = time.time()
+		if(i == lentgh-1):
+			sending = False
 
 	# get current time
 	currentTime = time.time()
