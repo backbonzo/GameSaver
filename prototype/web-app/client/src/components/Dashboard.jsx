@@ -16,7 +16,7 @@ const Dashboard = (props) => {
 
   async function getAddress(at) {
 
-   const temp =  await fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/"+props.deviceEntries[at].longitude+","+props.deviceEntries[at].latitude+".json?types=poi&access_token="+process.env.REACT_APP_MAPBOX_TOKEN+"");
+  const temp =  await fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/"+props.deviceEntries[at].longitude+","+props.deviceEntries[at].latitude+".json?types=poi&access_token="+process.env.REACT_APP_MAPBOX_TOKEN+"");
 
   const data = await temp.json();
 
@@ -97,7 +97,7 @@ const Dashboard = (props) => {
                   <td>{entry._id}</td>
                   <td>{entry.title}</td>
                   <td>{entry.description}</td>
-                  <td>{entry.address ? entry.address:`${entry.latitude},${entry.longitude}`}</td>
+                  <td>{!entry.address && "Address Not Found"}{!entry.address && <br />}{entry.address ? entry.address:(`${entry.latitude},${entry.longitude}`)}</td>
                   <td><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
                   <td>
                     <img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}>
