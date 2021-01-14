@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import Table from "react-bootstrap/Table";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -11,6 +11,8 @@ const Dashboard = (props) => {
   const min = 1;
   const max = 3;
 
+  const [dev, setDev] = useState([]);
+
 
   async function getAddress(at) {
 
@@ -18,17 +20,19 @@ const Dashboard = (props) => {
 
   const data = await temp.json();
 
-
-  if(data.features[0])
-      props.deviceEntries[at].address = data.features[0].place_name;
-  else
-    props.deviceEntries[at].address = undefined;
+  return data.features[0];
 
   }
 
   
 
-  // simulate ai that assigns garbage fullness
+ 
+
+  async function getExtraData(){
+
+    let tempDev = props.deviceEntries;
+     // simulate ai that assigns garbage fullness
+     // and get location
   for(let i = 0; i< props.deviceEntries.length; i++ ){
     
 
@@ -42,21 +46,26 @@ const Dashboard = (props) => {
       props.deviceEntries[i].status = RedIcon;
     }
 
-    // fetch("https://api.mapbox.com/geocoding/v5/mapbox.places/"+props.deviceEntries[i].longitude+","+props.deviceEntries[i].latitude+".json?types=poi&access_token="+process.env.REACT_APP_MAPBOX_TOKEN+"") .then(res => res.json())
-    // .then(data => {
-    //   if (data.features[0]) {
-    //     props.deviceEntries[i].address = data.features[0].place_name;
-    //   } else
-    //     props.deviceEntries[i].address = "Not Found";
-      
-    // });
+    let data = await getAddress(i);
 
-    getAddress(i);
+      if(data)
+      tempDev[i].address = data.place_name;
+      else
+      tempDev[i].address = undefined;
 
+
+   //console.log(data);
   }
 
-  
-  //console.log(props.deviceEntries);
+  setDev(tempDev);
+}
+
+
+  useEffect(()=>{
+    getExtraData();
+  });
+
+
 
   const style = {
     width: window.innerWidth-64,
@@ -82,7 +91,7 @@ const Dashboard = (props) => {
               </thead>
               <tbody>
                 {
-                props.deviceEntries.map((entry) => {
+                dev.map((entry) => {
                   return(
                   <tr key={entry._id} >
                   <td>{entry._id}</td>
