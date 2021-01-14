@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const Grid = require('gridfs-stream');
+const cookieParser = require('cookie-parser');
 
 require('dotenv').config(); // Automatically read .env if exist
 
@@ -11,7 +12,9 @@ require('dotenv').config(); // Automatically read .env if exist
 const middelwares = require('./middlewares');
 // Routing below
 const devices = require('./api/devices');
-/* const fileTransfer = require('./api/files'); */
+
+// Importing user Model
+const User = require('./models/User');
 
 const app = express();
 
@@ -22,7 +25,7 @@ mongoose.connect(process.env.DATABASE_URL, {
   useUnifiedTopology: true,
 }).then(() => {
   // eslint-disable-next-line no-console
-  console.log('Connected to database ');
+  console.log('Connected to the device database');
 }).catch((err) => {
   // eslint-disable-next-line no-console
   console.error(`Error connecting to the database. \n${err}`);
@@ -46,15 +49,15 @@ app.use(cors({
 }));
 // Adding json body parsing middleware from express
 app.use(express.json());
+// Using Cookie Parser (MIGHT need to disable for GDPR) //todo reminder
+app.use(cookieParser());
 
 // Simple get for the / url
 app.get('/', (req, res) => {
   res.json({
-    message: 'Hello World',
+    message: 'Something went wrong, `you\'re not supposed to be here.',
   });
 });
-
-/* app.use('api/files', fileTransfer); */
 
 // We use the router before the notFound since we want it to register
 // and because we want to use it AFTER our middlewares above
@@ -64,31 +67,9 @@ app.use('/api/devices', devices);
 app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
   res.contentType('image/png');
-  gfs.files.findOne({ _id: fileId }, (files, err) => {
+  gfs.files.findOne({ _id: fileId }, () => {
     const readstream = gfs.createReadStream({
       _id: fileId,
-    });
-    readstream.pipe(res);
-  });
-});
-
-// BELOW IS TEST 2, using gfs.FIND instead of FindOne(seems to not be supported anymore)
-app.get('/file1/:id', (req, res) => {
-  res.contentType('image/png');
-  gfs.find({ _id: req.params.id }).toArray((err, files) => {
-    // if files
-    if (!files || files.length === 0) {
-      // eslint-disable-next-line no-console
-      console.log('Files not found');
-    }
-    const readstream = gfs.createReadStream({
-      _id: req.params.id,
-    });
-    readstream.on('data', (chunk) => {
-      res.write(chunk);
-    });
-    readstream.on('end', () => {
-      res.end();
     });
     readstream.pipe(res);
   });
@@ -105,6 +86,22 @@ app.get('/allfiles', (req, res) => {
     // Files exist
     return res.json(files);
   });
+});
+
+app.get('/users', User);
+
+const userInput = {
+  username: 'Noobtester1234',
+  password: '123456thisisnotgood',
+  role: 'admin',
+};
+
+const user = new User(userInput);
+user.save((err, document) => {
+  if (err) {
+    console.log(err);
+  }
+  console.log(document);
 });
 
 app.use(middelwares.notFound);

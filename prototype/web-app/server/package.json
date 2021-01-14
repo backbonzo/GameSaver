@@ -4,6 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
@@ -11,9 +13,10 @@
     "helmet": "^4.2.0",
     "mongoose": "^5.11.8",
     "morgan": "^1.10.0",
-    "multer": "^1.4.2",
-    "multer-gridfs-storage": "^4.2.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "eslint": "^7.15.0",
