@@ -9,10 +9,41 @@ import Dashboard from "./components/Dashboard";
 import Account from "./components/Account";
 import LogOut from "./components/LogOut";
 import PageNotFound from "./components/PageNotFound";
+import { Map as MapIcon, Account as AccountIcon, Exit, Dash} from "./components/Icons";
+
 
 import { listDeviceEntries } from './API';
+import Logout from './components/LogOut';
 
 const App = () => {
+
+  // list of pages to render in navbar
+  const pageList = [{
+                  page: 1,
+                  icon: MapIcon,
+                  PagePath: "/",
+                  PageName: "Map"
+                    },
+                  {
+                  page: 2,
+                  icon: Dash,
+                  PagePath: "/dashboard",
+                  PageName: "Dashboard"
+                      },
+                  {
+                  page: 3,
+                  icon: AccountIcon,
+                  PagePath: "/account",
+                  PageName: "Account"
+                      },
+                  {
+                  page: 4,
+                  icon: Exit,
+                  PagePath: "/logout",
+                  PageName: "Logout"
+                      }                    
+                  ];
+
   // State variable deviceEntries starts of as an empty array
   const [deviceEntries, setDeviceEntries] = useState([]);
 
@@ -49,26 +80,32 @@ const App = () => {
 
   return (
     <div>
-      <BrowserRouter>
-        <Nav />
-        <Switch>
-          <Route path="/" exact render={() =>
-            <Map deviceEntries={deviceEntries} getDevices={getDevices} />
-          } />
+    <BrowserRouter>
+        <Nav pageList={pageList} />
+        <div style={{marginLeft: "64px"}}>
+          <Switch>
+            <Route path="/" exact render={() => 
+              <Map deviceEntries={deviceEntries} getDevices={getDevices} />
+            } />
 
-          <Route path="/dashboard" exact render={() =>
-            <Dashboard />
-          } />
+            <Route path="/dashboard" exact render={() => 
+              <Dashboard />
+            } />
 
-          <Route path="/account" exact render={() =>
-            <Account />
-          } />
+            <Route path="/account" exact render={() => 
+              <Account />
+            } />
 
-          <Route path="/" render={() =>
-            <PageNotFound />
-          } />
-        </Switch>
-      </BrowserRouter>
+            <Route path="/logout" exact render={() => 
+              <Logout />
+            } />
+
+            <Route path="/" render={() => 
+              <PageNotFound />
+            } />
+          </Switch>
+        </div>
+    </BrowserRouter>
     </div>
   );
 }

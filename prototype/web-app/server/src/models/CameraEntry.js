@@ -2,14 +2,6 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 
-// * Title - Text
-// * Description - Text
-// * Location / Owner / id - Number
-//    * Coordinates(Longitude, Latitude ?) - Array of Number
-// * Date Created / Started - DateTime
-// * Image(convert from base64 to image here or server side ?) - Text => URL
-// * Data(raw data for debugging)
-
 /* eslint-disable no-unused-vars */
 const cameraEntry = new Schema({
   title: {
@@ -39,6 +31,6 @@ const cameraEntry = new Schema({
   timestamps: true,
 });
 
-const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data');
+const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data'); // , 'data'
 
 module.exports = CameraEntry;
