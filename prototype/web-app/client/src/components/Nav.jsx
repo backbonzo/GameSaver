@@ -26,7 +26,7 @@ const Nav = (props) => {
                 <SideNav.Toggle style={{background: "#39505D",
                                         width: "100%"
                 }} />
-                <SideNav.Nav defaultSelected="/">
+                <SideNav.Nav defaultSelected={history.location.pathname}>
                     {props.pageList.map((item) => {
                     return(    
                     <NavItem key={item.page} eventKey={item.PagePath}>
