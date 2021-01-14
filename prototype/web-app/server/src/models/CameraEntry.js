@@ -31,6 +31,6 @@ const cameraEntry = new Schema({
   timestamps: true,
 });
 
-const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data');
+const CameraEntry = mongoose.model('CameraEntry', cameraEntry, 'data'); // , 'data'
 
 module.exports = CameraEntry;

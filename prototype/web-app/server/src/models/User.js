@@ -24,7 +24,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
     min: 6,
-    max: 20,
+    max: 12,
   },
   password: {
     type: String,
@@ -35,7 +35,7 @@ const UserSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     required: true,
   },
-  UserID: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserID' }],
+  devices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CameraEntry' }],
 });
 
 UserSchema.pre('save', function (next) {

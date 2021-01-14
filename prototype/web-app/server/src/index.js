@@ -13,8 +13,8 @@ const middelwares = require('./middlewares');
 // Routing below
 const devices = require('./api/devices');
 
-// Importing user Model
-const User = require('./models/User');
+// User router
+const userRouter = require('./routes/User');
 
 const app = express();
 
@@ -63,6 +63,8 @@ app.get('/', (req, res) => {
 // and because we want to use it AFTER our middlewares above
 app.use('/api/devices', devices);
 
+app.use('/user', userRouter);
+
 // Below is TEST 1, using gfs findOne which renders the picutre only partly not the whole chunk
 app.get('/file/:id', (req, res) => {
   const fileId = req.params.id;
@@ -86,22 +88,6 @@ app.get('/allfiles', (req, res) => {
     // Files exist
     return res.json(files);
   });
-});
-
-app.get('/users', User);
-
-const userInput = {
-  username: 'Noobtester1234',
-  password: '123456thisisnotgood',
-  role: 'admin',
-};
-
-const user = new User(userInput);
-user.save((err, document) => {
-  if (err) {
-    console.log(err);
-  }
-  console.log(document);
 });
 
 app.use(middelwares.notFound);
