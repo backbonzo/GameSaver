@@ -6,6 +6,8 @@ import GreenIcon from "../icons/green.png";
 import OrangeIcon from "../icons/orange.png";
 import RedIcon from "../icons/red.png";
 
+import PopUp from "./PopUp";
+
 const Dashboard = (props) => {
 
   const min = 1;
@@ -74,7 +76,9 @@ const Dashboard = (props) => {
 
   const style = {
     width: window.innerWidth-64,
+    maxWidth: "100vw",
     height: window.innerHeight,
+    maxHeight: "100vh",
     backgroundColor: "#1b1c22"
   };
 
@@ -83,7 +87,7 @@ const Dashboard = (props) => {
       <div style={style}>
         <Container>
           <Row className="text-center">
-            <Table striped bordered hover variant="dark">
+            <Table className="table-responsive" striped bordered hover variant="dark">
               <thead>
                 <tr>
                   <th>Device_Id</th>
@@ -110,8 +114,7 @@ const Dashboard = (props) => {
                   </td>
                   <td style={{verticalAlign: "middle"}}><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
                   <td style={{verticalAlign: "middle"}}>
-                    <img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}>
-                    </img>
+                    <PopUp element={<img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}></img>} imgSrc={entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id} />
                   </td>
                   </tr>
                   );
