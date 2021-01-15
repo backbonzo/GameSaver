@@ -11,6 +11,11 @@ const Dashboard = (props) => {
   const min = 1;
   const max = 3;
 
+
+  function goToGoogleMaps(lat, long){
+    window.open("https://www.google.com/maps?q=" + lat + "," + long, "_blank");
+  }
+
   const [dev, setDev] = useState([]);
 
 
@@ -94,12 +99,17 @@ const Dashboard = (props) => {
                 dev.map((entry) => {
                   return(
                   <tr key={entry._id} >
-                  <td>{entry._id}</td>
-                  <td>{entry.title}</td>
-                  <td>{entry.description}</td>
-                  <td>{!entry.address && "Address Not Found"}{!entry.address && <br />}{entry.address ? entry.address:(`${entry.latitude},${entry.longitude}`)}</td>
-                  <td><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
-                  <td>
+                  <td style={{verticalAlign: "middle"}}>{entry._id}</td>
+                  <td style={{verticalAlign: "middle"}}>{entry.title}</td>
+                  <td style={{verticalAlign: "middle"}}>{entry.description}</td>
+                  <td 
+                    onClick={()=>{ goToGoogleMaps(entry.latitude, entry.longitude);}}
+                    style={{textDecoration: "underline",cursor:'pointer', verticalAlign: "middle"}}
+                  >
+                      {!entry.address && "Address Not Found"}{!entry.address && <br />}{entry.address ? entry.address:(`${entry.latitude},${entry.longitude}`)}
+                  </td>
+                  <td style={{verticalAlign: "middle"}}><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
+                  <td style={{verticalAlign: "middle"}}>
                     <img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}>
                     </img>
                   </td>

@@ -1,5 +1,5 @@
 import React from "react";
-import map from "../icons/map.svg";
+import map from "../icons/globe-sharp.svg";
 import account from "../icons/account.svg";
 import exit from "../icons/exit.svg";
 import dash from "../icons/dash.svg";

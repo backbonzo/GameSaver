@@ -31,7 +31,6 @@ const Nav = (props) => {
                     return(    
                     <NavItem key={item.page} eventKey={item.PagePath}>
                         <NavIcon>
-                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                             {item.icon()}
                         </NavIcon>
                         <NavText>
