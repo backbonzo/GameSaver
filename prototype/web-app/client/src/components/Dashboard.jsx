@@ -11,6 +11,11 @@ const Dashboard = (props) => {
   const min = 1;
   const max = 3;
 
+
+  function goToGoogleMaps(lat, long){
+    window.location.href = ("https://www.google.com/maps?q=" + lat + "," + long);
+  }
+
   const [dev, setDev] = useState([]);
 
 
@@ -97,7 +102,11 @@ const Dashboard = (props) => {
                   <td>{entry._id}</td>
                   <td>{entry.title}</td>
                   <td>{entry.description}</td>
-                  <td>{!entry.address && "Address Not Found"}{!entry.address && <br />}{entry.address ? entry.address:(`${entry.latitude},${entry.longitude}`)}</td>
+                  <td onClick={()=>{
+                    goToGoogleMaps(entry.latitude, entry.longitude);
+                  }}>
+                      {!entry.address && "Address Not Found"}{!entry.address && <br />}{entry.address ? entry.address:(`${entry.latitude},${entry.longitude}`)}
+                  </td>
                   <td><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
                   <td>
                     <img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}>
