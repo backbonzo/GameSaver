@@ -114,7 +114,7 @@ const Dashboard = (props) => {
                   </td>
                   <td style={{verticalAlign: "middle"}}><img alt="status" width="25px" height="25px"  src={entry.status} ></img></td>
                   <td style={{verticalAlign: "middle"}}>
-                    <PopUp element={<img alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}></img>} imgSrc={entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id} />
+                    <PopUp element={<img id={`td_img_${entry._id}`} style={{cursor: "pointer"}} alt="trash" width="100px" height="100px" src={ entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id}></img>} imgSrc={entry.image_id && process.env.REACT_APP_IMAGE_SRC + "/file/" + entry.image_id} />
                   </td>
                   </tr>
                   );
