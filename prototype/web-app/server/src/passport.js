@@ -7,7 +7,7 @@ const User = require('./models/User');
 const cookieExtractor = (req) => {
   let token = null;
   if (req && req.cookies) {
-    token = req.cookies['access_token'];
+    token = req.cookies.access_token;
   }
   return token;
 };
@@ -42,6 +42,7 @@ passport.use(new LocalStrategy((username, password, done) => {
       return done(null, false);
     }
     // found user now check if password is correct
-    user.comparePassword(password, done);
+    const comparedPass = user.comparePassword(password, done);
+    return comparedPass;
   });
 }));

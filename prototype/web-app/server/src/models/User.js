@@ -35,7 +35,7 @@ const UserSchema = mongoose.Schema({
     enum: ['user', 'admin'],
     required: true,
   },
-  devices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'CameraEntry' }],
+  devices: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Device' }],
 });
 
 UserSchema.pre('save', function (next) {
@@ -70,3 +70,4 @@ UserSchema.methods.comparePassword = function (password, cb) {
 };
 
 module.exports = mongoose.model('User', UserSchema);
+// module.exports = UserSchema;
