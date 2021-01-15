@@ -32,6 +32,10 @@ body {
   text-align: center;
 }
 
+.parentPopUP .mapboxgl-popup{
+z-index: 1;
+}
+
 .popup img {
   /*
   max-width: 50%;
