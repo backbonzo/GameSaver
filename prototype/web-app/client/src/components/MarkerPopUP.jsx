@@ -40,7 +40,7 @@ const MarkerPopUP = (props) => {
                   </div>
                 </Marker>
 
-                <div className="parentPopUP">
+                <div>
                 {
                   // IF showPopup(true) then show it, otherwise show null
                   showPopup[entry._id] ? (
