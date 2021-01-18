@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 
 // export props but destrucutre/decon children from props
 // the components that we want to wrap provider around
-export default ( { children } ) => {
+export default ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // init to false
   const [isLoaded, setIsLoaded] = useState(false);
