@@ -26,12 +26,11 @@ const Nav = (props) => {
                 <SideNav.Toggle style={{background: "#39505D",
                                         width: "100%"
                 }} />
-                <SideNav.Nav defaultSelected="/">
+                <SideNav.Nav defaultSelected={history.location.pathname}>
                     {props.pageList.map((item) => {
                     return(    
                     <NavItem key={item.page} eventKey={item.PagePath}>
                         <NavIcon>
-                            <i className="fa fa-fw fa-home" style={{ fontSize: '1.75em' }} />
                             {item.icon()}
                         </NavIcon>
                         <NavText>

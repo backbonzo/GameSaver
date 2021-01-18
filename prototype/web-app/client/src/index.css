@@ -32,6 +32,10 @@ body {
   text-align: center;
 }
 
+.mapboxgl-popup{
+  z-index: 1 !important;
+}
+
 .popup img {
   /*
   max-width: 50%;
@@ -53,6 +57,20 @@ body {
   margin: 0.5rem 0;
   display: block;
   width: 100%;
+}
+
+.popup-content{
+  width: auto !important;
+}
+
+.popup-overlay {
+  margin-left: 64px;
+  max-width: 100vw;
+  max-height: 100vh;
+}
+
+.table-responsive{
+  max-height: 100vh;
 }
 
 

@@ -39,6 +39,8 @@ const MarkerPopUP = (props) => {
                     </svg>
                   </div>
                 </Marker>
+
+                <div>
                 {
                   // IF showPopup(true) then show it, otherwise show null
                   showPopup[entry._id] ? (
@@ -62,6 +64,7 @@ const MarkerPopUP = (props) => {
                     </Popup>
                   ) : null
                 }
+                </div>
               </React.Fragment>
             ))
           }
