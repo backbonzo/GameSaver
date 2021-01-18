@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 const { Router } = require('express');
 const passport = require('passport');
 const JWT = require('jsonwebtoken');
@@ -6,6 +7,7 @@ const userRouter = Router();
 const passportConfig = require('../passport');
 const User = require('../models/User');
 const CameraEntry = require('../models/CameraEntry');
+const Device = require('../models/Device');
 // const devices = require('../api/devices');
 
 const signToken = (userID) => {
@@ -60,14 +62,13 @@ userRouter.get('/logout', passport.authenticate('jwt', { session: false }), (req
 // userRouter.get('/api/devices', devices);
 
 userRouter.post('/device', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const cameraEntry = new CameraEntry(req.body);
-  cameraEntry.save(async (err) => {
+  // const cameraEntry = new CameraEntry(req.body);
+  const device = new Device(req.body);
+  device.save(async (err) => {
     if (err) {
-      console.log('Error when saving');
-      console.log(err);
       res.status(500).json({ message: { msgBody: 'Error has occured', msgError: true } });
     } else {
-      req.user.devices.push(cameraEntry);
+      req.user.devices.push(device);
       req.user.save((error) => {
         if (error) {
           res.status(500).json({ message: { msgBody: 'Error has occured', msgError: true } });
@@ -80,12 +81,18 @@ userRouter.post('/device', passport.authenticate('jwt', { session: false }), (re
 
 userRouter.get('/devices', passport.authenticate('jwt', { session: false }), (req, res) => {
   // eslint-disable-next-line no-underscore-dangle
-  CameraEntry.findById({ _id: req.user._id }).populate('devices').exec((err, document) => {
+  User.findById({ _id: req.user._id }).populate('devices').exec((err, document) => {
     if (err) {
       res.status(500).json({ message: { msgBody: 'Error has occured', msgError: true } });
     }
     res.status(200).json({ devices: document.devices, authenticated: true });
   });
+});
+
+userRouter.get('/authenticated', passport.authenticate('jwt', { session: false }), (req, res) => {
+  // eslint-disable-next-line no-underscore-dangle
+  const { username, role } = req.user;
+  res.status(200).json({ isAuthenticated: true, user: { username, role } });
 });
 
 module.exports = userRouter;

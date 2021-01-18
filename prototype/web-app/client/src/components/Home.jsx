@@ -1,13 +1,13 @@
 import React from "react";
 
-const Dashboard = () => {
+const Home = () => {
   return (
   <div>
     <h1>
-      Dashboard
+      Home is where localhost is
     </h1>
   </div>
   );
 }
 
-export default Dashboard;
+export default Home;

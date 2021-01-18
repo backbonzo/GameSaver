@@ -29,23 +29,24 @@ export const DeviceForm = ({ location, onClose }) => {
   };
 
   return (
-    // This is the device form component we are exporting
-    // ref register is the "route" to useForm()
-    <form onSubmit={handleSubmit(onSubmit)} className="device-form">
-      {/* Below syntax say that IF error(true) then show H3 with error ELSE show null/nothing */}
-      { error ? <h3 className="error">{error}</h3> : null}
-      <label htmlFor="apiKey">API KEY</label>
-      <input type="password" name="apiKey" required ref={register} />
-      <label htmlFor="title">Title</label>
-      <input name="title" required ref={register} />
-      <label htmlFor="description">Description</label>
-      <textarea name="description" rows={2} ref={register}></textarea>
-      <label htmlFor="image">Image</label>
-      <input name="image" ref={register}/>
-      {/* Disable button if we are loading */}
-  <button disabled={loading} >{loading ? 'Loading...' : 'Create Device Marker'}</button>
-    </form>
-    );
+
+  // This is the device form component we are exporting
+  // ref register is the "route" to useForm()
+  <form onSubmit={handleSubmit(onSubmit)} className="device-form">
+    {/* Below syntax say that IF error(true) then show H3 with error ELSE show null/nothing */}
+    { error ? <h3 className="error">{error}</h3> : null}
+    <label htmlFor="apiKey">API KEY</label>
+    <input type="password" name="apiKey" required ref={register} />
+    <label htmlFor="title">Title</label>
+    <input name="title" required ref={register} />
+    <label htmlFor="description">Description</label>
+    <textarea name="description" rows={2} ref={register}></textarea>
+    <label htmlFor="image">Image</label>
+    <input name="image" ref={register}/>
+    {/* Disable button if we are loading */}
+    <button disabled={loading} >{loading ? 'Loading...' : 'Create Device Marker'}</button>
+  </form>
+  );
 };
 
 export default DeviceForm;

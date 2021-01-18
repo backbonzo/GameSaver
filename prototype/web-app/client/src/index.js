@@ -1,14 +1,19 @@
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import AuthProvider from './Context/AuthContext';
+
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
+  <AuthProvider>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </AuthProvider>,
+  //</React.StrictMode>,
+  document.getElementById('root'),
 );
 
 // If you want to start measuring performance in your app, pass a function
