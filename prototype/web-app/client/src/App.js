@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 // costume components
+import ProtectedRoute from "./components/ProtectedRoute";
 import Nav from "./components/Nav";
 import Map from "./components/Map";
 import Dashboard from "./components/Dashboard";
@@ -46,6 +47,7 @@ const App = () => {
 
   // State variable deviceEntries starts of as an empty array
   const [deviceEntries, setDeviceEntries] = useState([]);
+  const [auth, setAuth] = useState(false);
 
 
   const getDevices = async () => {
@@ -81,22 +83,25 @@ const App = () => {
   return (
     <div>
     <BrowserRouter>
-        <Nav pageList={pageList} />
+        {auth && <Nav pageList={pageList} />}
         <div style={{marginLeft: "64px"}}>
           <Switch>
-            <Route path="/" exact render={() => 
+            <ProtectedRoute auth={auth} path="/login" exact render={() => 
+              <Logout />
+            } />
+            <ProtectedRoute auth={auth} path="/" exact render={() => 
               <Map deviceEntries={deviceEntries} getDevices={getDevices} />
             } />
 
-            <Route path="/dashboard" exact render={() => 
+            <ProtectedRoute auth={auth} path="/dashboard" exact render={() => 
               <Dashboard deviceEntries={deviceEntries} />
             } />
 
-            <Route path="/account" exact render={() => 
+            <ProtectedRoute auth={auth} path="/account" exact render={() => 
               <Account />
             } />
 
-            <Route path="/logout" exact render={() => 
+            <ProtectedRoute auth={auth} path="/logout" exact render={() => 
               <Logout />
             } />
 
